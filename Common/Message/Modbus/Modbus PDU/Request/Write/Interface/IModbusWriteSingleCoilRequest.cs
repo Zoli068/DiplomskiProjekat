@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Write Single Coil Request attributes
     /// </summary>
-    public interface IModbusWriteSingleCoilRequest : IModbusData
+    public interface IModbusWriteSingleCoilRequest : IModbusPDUData
     {
         /// <summary>
         /// Address where we want to write the value

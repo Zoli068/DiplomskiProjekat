@@ -18,4 +18,3 @@ namespace Master.Message.MessageHistory
         public MessageDataNotFoundException(string message) : base(message) { }
     }
 }
-

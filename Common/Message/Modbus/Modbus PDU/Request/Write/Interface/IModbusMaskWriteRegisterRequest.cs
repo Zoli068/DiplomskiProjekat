@@ -9,7 +9,7 @@ namespace Common.Message.Modbus
     /// <summary>
     /// Describes a Modbus Mask Write Register Request attributes
     /// </summary>
-    public interface IModbusMaskWriteRegisterRequest:IModbusData
+    public interface IModbusMaskWriteRegisterRequest:IModbusPDUData
     {
         /// <summary>
         /// Address where we want to write

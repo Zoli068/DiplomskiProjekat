@@ -12,12 +12,12 @@ namespace Master.CommandHandler
     /// </summary>
     public class ModbusMessageInitiateHandler : IMessageInitiateHandler<FunctionCode>
     {
-        private readonly Dictionary<FunctionCode, IMessageInitiateCommand<IMessageDTO, IModbusData>> messageInitiateCommands;
+        private readonly Dictionary<FunctionCode, IMessageInitiateCommand<IMessageDTO, IModbusPDUData>> messageInitiateCommands;
         private Action<IMessageData> sendMessage;
 
         public ModbusMessageInitiateHandler(Action<IMessageData> sendMessage)
         {
-            messageInitiateCommands = new Dictionary<FunctionCode, IMessageInitiateCommand<IMessageDTO, IModbusData>>() {
+            messageInitiateCommands = new Dictionary<FunctionCode, IMessageInitiateCommand<IMessageDTO, IModbusPDUData>>() {
                 {FunctionCode.ReadCoils,new ModbusReadCoilsInitiateCommand() },
                 {FunctionCode.ReadDiscreteInputs,new ModbusReadDiscreteInputsInitiateCommand() },
                 {FunctionCode.ReadHoldingRegisters,new ModbusReadHoldingRegistersInitiateCommand()},
@@ -42,8 +42,8 @@ namespace Master.CommandHandler
         /// <param name="modbusMessageDTO">The ModbusDTO object</param>
         public void InitiateMessage(FunctionCode code, IMessageDTO modbusMessageDTO)
         {
-            IMessageInitiateCommand<IMessageDTO, IModbusData> message;
-            IModbusData temp;
+            IMessageInitiateCommand<IMessageDTO, IModbusPDUData> message;
+            IModbusPDUData temp;
 
             if (messageInitiateCommands.TryGetValue(code, out message))
             {

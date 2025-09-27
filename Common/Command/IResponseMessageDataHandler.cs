@@ -6,7 +6,7 @@ namespace Common.Command
     /// Describes the response message data handler, when the client got a response, then we 
     /// have to pass the Response MessageData, and the original Request MessageData as parameter
     /// </summary>
-    public interface IResponseMessageDataHandler
+    public interface IResponseHandler
     {
         /// <summary>
         /// Method which will be called when the Client got a response, then we have to 

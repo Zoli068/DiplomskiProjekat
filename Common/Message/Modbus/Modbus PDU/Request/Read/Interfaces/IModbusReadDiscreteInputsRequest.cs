@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Read Discrete Inputs attributes
     /// </summary>
-    public interface IModbusReadDiscreteInputsRequest : IModbusData
+    public interface IModbusReadDiscreteInputsRequest : IModbusPDUData
     {
         /// <summary>
         /// Address from we want to get the values

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.Message
+﻿namespace Common.Message
 {
-    public interface IModbusReadWriteMultpleRegistersResponse:IModbusData
+    public interface IModbusReadWriteMultpleRegistersResponse:IModbusPDUData
     {
         byte ByteCount { get; set; }
 

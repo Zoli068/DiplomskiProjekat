@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Read Input Registers Response attributes
     /// </summary>
-    public interface IModbusReadInputRegistersResponse : IModbusData
+    public interface IModbusReadInputRegistersResponse : IModbusPDUData
     {
         /// <summary>
         /// Number of bytes contained inside the <see cref="InputRegisters"/>

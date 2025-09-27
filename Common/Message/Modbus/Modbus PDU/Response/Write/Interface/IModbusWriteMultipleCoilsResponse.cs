@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Write Multiple Coils Response attributes
     /// </summary>
-    public interface IModbusWriteMultipleCoilsResponse : IModbusData
+    public interface IModbusWriteMultipleCoilsResponse : IModbusPDUData
     {
         /// <summary>
         /// Address where we wrote the values

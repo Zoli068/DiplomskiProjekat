@@ -7,9 +7,9 @@ namespace Master.CommandHandler.ResponseCommands
     /// <summary>
     /// Class that will handle the incoming <see cref="ModbusReadInputRegistersResponse"/>
     /// </summary>
-    public class ReadInputRegistersResponseCommand : IResponseMessageDataCommand<IModbusData>
+    public class ReadInputRegistersResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusData request, IModbusData response)
+        public void Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusReadInputRegistersResponse res = response as ModbusReadInputRegistersResponse;
 

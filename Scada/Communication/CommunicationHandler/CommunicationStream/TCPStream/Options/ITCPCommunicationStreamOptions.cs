@@ -1,4 +1,5 @@
-﻿using Common.Communication;
+﻿using Common;
+using Common.Communication;
 using System.Net;
 
 namespace Master.Communication
@@ -6,7 +7,7 @@ namespace Master.Communication
     /// <summary>
     /// Interface which describes the important values for TCP communication
     /// </summary>
-    public interface ITcpCommunicationOptions : ICommunicationOptions
+    public interface ITCPCommunicationStreamOptions : ICommunicationStreamOptions
     {
         /// <summary>
         /// IP Address of the server
@@ -19,13 +20,8 @@ namespace Master.Communication
         int PortNumber { get; }
 
         /// <summary>
-        /// Time period after which the current command will be interrupted
+        /// Security mode of the tcp stream
         /// </summary>
-        int TimeOut { get; }
-
-        /// <summary>
-        /// Size of the connection buffer in bytes
-        /// </summary>
-        int BufferSize { get; }
+        SecurityMode SecurityMode { get; }
     }
 }

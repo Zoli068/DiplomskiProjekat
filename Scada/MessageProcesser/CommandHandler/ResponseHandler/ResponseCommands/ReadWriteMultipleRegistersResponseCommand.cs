@@ -1,16 +1,12 @@
 ﻿using Common.Command;
 using Common.Message;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Master.MessageProcesser
 {
-    public class ReadWriteMultipleRegistersResponseCommand : IResponseMessageDataCommand<IModbusData>
+    public class ReadWriteMultipleRegistersResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusData request, IModbusData response)
+        public void Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusReadWriteMultipleRegistersRequest req= request as ModbusReadWriteMultipleRegistersRequest;
             ModbusReadWriteMultipleRegistersResponse res= response as ModbusReadWriteMultipleRegistersResponse;

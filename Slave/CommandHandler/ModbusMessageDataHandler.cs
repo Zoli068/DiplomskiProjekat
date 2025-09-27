@@ -14,11 +14,11 @@ namespace Slave.CommandHandler
     /// </summary>
     public class ModbusMessageDataHandler : IMessageDataHandler
     {
-        private readonly Dictionary<FunctionCode, IMessageDataCommand<IModbusData>> commands;
+        private readonly Dictionary<FunctionCode, IMessageDataCommand<IModbusPDUData>> commands;
 
         public ModbusMessageDataHandler(IPointsDataBase pointsDataBase,IFileRecord fileRecord,IFIFOQueue fIfoQueue)
         {
-            commands = new Dictionary<FunctionCode, IMessageDataCommand<IModbusData>>()
+            commands = new Dictionary<FunctionCode, IMessageDataCommand<IModbusPDUData>>()
             {
                 {FunctionCode.ReadCoils , new ReadCoilsCommand(pointsDataBase)},
                 {FunctionCode.ReadDiscreteInputs, new ReadDiscreteInputsCommand(pointsDataBase)},
@@ -38,7 +38,7 @@ namespace Slave.CommandHandler
 
         public IMessageData ProcessMessageData(IMessageData data)
         {
-            IMessageDataCommand<IModbusData> command;
+            IMessageDataCommand<IModbusPDUData> command;
 
             if (commands.TryGetValue(((IModbusPDU)data).FunctionCode, out command))
             {
@@ -66,7 +66,7 @@ namespace Slave.CommandHandler
             }
         }
 
-        private IMessageData CreateMessageData(IModbusData modbusData, FunctionCode functionCode)
+        private IMessageData CreateMessageData(IModbusPDUData modbusData, FunctionCode functionCode)
         {
             ModbusPDU modbusPDU = new ModbusPDU();
             modbusPDU.FunctionCode = functionCode;

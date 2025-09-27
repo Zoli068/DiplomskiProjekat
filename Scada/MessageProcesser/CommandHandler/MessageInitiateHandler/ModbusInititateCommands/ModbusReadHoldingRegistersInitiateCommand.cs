@@ -6,9 +6,9 @@ namespace Master.CommandHandler.MessageInitiateHandler
     /// <summary>
     /// Command for handling the ModbusDTO when we want to create a request: <see cref="ModbusReadHoldingRegistersRequest"/>
     /// </summary>
-    public class ModbusReadHoldingRegistersInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusData>
+    public class ModbusReadHoldingRegistersInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusPDUData>
     {
-        public IModbusData InitiateMessage(IMessageDTO messageDTO)
+        public IModbusPDUData InitiateMessage(IMessageDTO messageDTO)
         {
             InitiateReadModbusDTO DTO = messageDTO as InitiateReadModbusDTO;
 

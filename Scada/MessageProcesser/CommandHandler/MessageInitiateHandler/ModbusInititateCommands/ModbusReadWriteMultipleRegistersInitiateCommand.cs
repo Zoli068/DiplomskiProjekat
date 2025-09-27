@@ -1,16 +1,11 @@
 ﻿using Common.Message;
 using Common.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Master.MessageProcesser.MessageInitiateHandler
 {
-    public class ModbusReadWriteMultipleRegistersInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusData>
+    public class ModbusReadWriteMultipleRegistersInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusPDUData>
     {
-        public IModbusData InitiateMessage(IMessageDTO messageDTO)
+        public IModbusPDUData InitiateMessage(IMessageDTO messageDTO)
         {
             InitiateReadWriteMultipleRegistersModbusDTO DTO = messageDTO as InitiateReadWriteMultipleRegistersModbusDTO;
 

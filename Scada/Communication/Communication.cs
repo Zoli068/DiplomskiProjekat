@@ -15,13 +15,10 @@ namespace Master.Communication
 
         public Communication()
         {
-            //if we want to have configurable options, then static method for reading options
-            //and based the readed values creating those objects
+            ICommunicationStreamOptions tcpCommunicationStreamOptions = new TCPCommunicationOptions(IPAddress.Loopback, 502, CommunicationStreamType.TCP,SecurityMode.SECURE, 2000, 8192);
+            ICommunicationHandlerOptions communicationHandlerOptions = new CommunicationHandlerOptions(20000);
 
-            ICommunicationOptions tcpCommunicationOptions = new TcpCommunicationOptions(IPAddress.Loopback, 502, CommunicationType.TCP, 2000, 8192);
-            ICommunicationHandlerOptions communicationHandlerOptions = new CommunicationHandlerOptions(20000, SecurityMode.SECURE);
-
-            communicationHandler = new CommunicationHandler(communicationHandlerOptions, tcpCommunicationOptions, RaiseBytesRecvied);
+            communicationHandler = new CommunicationHandler(communicationHandlerOptions, tcpCommunicationStreamOptions, RaiseBytesRecvied);
         }
 
         private void RaiseBytesRecvied(byte[] bytes)

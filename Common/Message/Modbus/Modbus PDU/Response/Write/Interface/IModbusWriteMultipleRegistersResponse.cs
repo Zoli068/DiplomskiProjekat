@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Write Multiple Register Response attrbutes
     /// </summary>
-    public interface IModbusWriteMultipleRegistersResponse : IModbusData
+    public interface IModbusWriteMultipleRegistersResponse : IModbusPDUData
     {
         /// <summary>
         /// Address from we want to get the values

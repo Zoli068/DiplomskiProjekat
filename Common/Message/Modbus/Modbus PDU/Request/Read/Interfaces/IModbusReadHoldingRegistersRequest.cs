@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Read Holding Registers  Request attributes
     /// </summary>
-    public interface IModbusReadHoldingRegistersRequest : IModbusData
+    public interface IModbusReadHoldingRegistersRequest : IModbusPDUData
     {
         /// <summary>
         /// Address from we want to get the values

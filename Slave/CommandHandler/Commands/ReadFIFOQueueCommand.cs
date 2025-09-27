@@ -2,15 +2,10 @@
 using Common.FIFOQueue;
 using Common.Message;
 using Common.PointsDataBase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Slave.CommandHandler.Commands
 {
-    internal class ReadFIFOQueueCommand : IMessageDataCommand<IModbusData>
+    internal class ReadFIFOQueueCommand : IMessageDataCommand<IModbusPDUData>
     {
         private IFIFOQueue fIfoQueue;
 
@@ -19,7 +14,7 @@ namespace Slave.CommandHandler.Commands
             this.fIfoQueue = fIfoQueue;
         }
 
-        public IModbusData Execute(IModbusData data)
+        public IModbusPDUData Execute(IModbusPDUData data)
         {
             ModbusReadFIFOQueueRequest requset = data as ModbusReadFIFOQueueRequest;
             

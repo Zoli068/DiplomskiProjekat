@@ -9,11 +9,11 @@ namespace Common.Message
     public class ModbusPDU : IModbusPDU
     {
         private FunctionCode functionCode;
-        private IModbusData data;
+        private IModbusPDUData data;
 
         public ModbusPDU() { }
 
-        public ModbusPDU(FunctionCode functionCode, IModbusData data)
+        public ModbusPDU(FunctionCode functionCode, IModbusPDUData data)
         {
             this.functionCode = functionCode;
             this.data = data;
@@ -63,7 +63,7 @@ namespace Common.Message
             }
         }
 
-        public IModbusData Data
+        public IModbusPDUData Data
         {
             get
             {

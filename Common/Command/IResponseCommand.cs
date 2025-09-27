@@ -4,7 +4,7 @@
     /// Interfaces which describes the method that need to be 
     /// implemented inside a ResponseCommand for MessageDatas
     /// </summary>
-    public interface IResponseMessageDataCommand<T>
+    public interface IResponseCommand<T>
     {
         /// <summary>
         /// The method which have to be called to process a messageData response

@@ -1,6 +1,8 @@
 ﻿using Common.Command;
 using Common.Message;
 using Common.Serialization;
+using Common.Utilities;
+using Master.CommandHandler;
 using Master.Message.MessageHistory;
 using System;
 using System.Collections.Generic;
@@ -12,16 +14,18 @@ namespace Master.Communication
     /// </summary>
     public class TCPModbusMessageHandler : IMessageHandler
     {
+        private ByteBuffer buffer;
         private Action<byte[]> sendBytes;
         private ushort transactionIdentificator = 0;
         private ModbusMessageDataHistory messageDataHistory;
-        private IResponseMessageDataHandler responseMessageDataHandler;
+        private IResponseHandler responsePDUHandler;
 
-        public TCPModbusMessageHandler(Action<byte[]> sendBytes, IResponseMessageDataHandler responseMessageDataHandler)
+        public TCPModbusMessageHandler(Action<byte[]> sendBytes)
         {
             this.sendBytes = sendBytes;
             messageDataHistory = new ModbusMessageDataHistory();
-            this.responseMessageDataHandler = responseMessageDataHandler;
+            responsePDUHandler = new ModbusPDUResponseHandler();
+            buffer= new ByteBuffer();
         }
 
         /// <summary>
@@ -30,16 +34,27 @@ namespace Master.Communication
         /// <param name="data">The recived bytes</param>
         public void ProcessBytes(byte[] data)
         {
-            ModbusMessage modbusMessage = null;
+            buffer.Append(data);
 
+            if (buffer.Length < 7)
+                return;
+
+            byte[] header = buffer.GetValues(0, 7);
+            
             try
-            {
-                modbusMessage = Serialization.CreateMessageObject<ModbusMessage>(data);
+            {                
+                TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
 
-                if (data.Length - 7 == (modbusMessage.MessageHeader as TCPModbusHeader).Length)
+                if (buffer.Length - 7 >= TCPModbusHeader.Length)
                 {
-                    IMessageData response = messageDataHistory.GetMessageData(((TCPModbusHeader)modbusMessage.MessageHeader).TransactionID);
-                    responseMessageDataHandler.ProcessMessageData(response, modbusMessage.MessageData);
+                    byte[] message=buffer.GetValues(7, TCPModbusHeader.Length);
+
+                    ModbusPDU modbusPDU= Serialization.CreateMessageObject<ModbusPDU>(message);
+
+                    IMessageData response = messageDataHistory.GetMessageData(TCPModbusHeader.TransactionID);
+                    responsePDUHandler.ProcessMessageData(response, modbusPDU);
+
+                    buffer.RemoveBytes(0,TCPModbusHeader.Length + 7);
                 }
             }
             catch (Exception)

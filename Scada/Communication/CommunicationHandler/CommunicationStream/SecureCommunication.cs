@@ -13,9 +13,9 @@ namespace Master.Communication
 {
 
     /// <summary>
-    /// SecureCommunication provides possibility to secure a <see cref="Stream"/> with TLS1.2 with x509 authentication
+    /// SecureTCPCommunicationStream provides possibility to secure a <see cref="Stream"/> with TLS1.2 with x509 authentication
     /// </summary>
-    public class SecureCommunication : IAsyncSecureCommunication
+    public class SecureTCPCommunicationStream : IAsyncSecureCommunication
     {
         /// <summary>
         /// Client Certificate

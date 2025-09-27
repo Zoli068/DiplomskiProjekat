@@ -11,8 +11,8 @@ namespace Test
     [TestFixture]
     public class MasterCommunicationTest
     {
-        private Master.Communication.TcpCommunicationOptions options;
-        private Master.Communication.TcpCommunicationStream tcpCommunicationStream;
+        private Master.Communication.TCPCommunicationOptions options;
+        private Master.Communication.TCPCommunicationStream tcpCommunicationStream;
         private Slave.Communication.TcpCommunicationStream tcpServerCommunicationStream;
         private CancellationTokenSource cancellationTokenSource;
 
@@ -36,7 +36,7 @@ namespace Test
         {
             //Arrange
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8000, CommunicationType.TCP, 5000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
 
             // Act
             await tcpCommunicationStream.Connect();
@@ -51,7 +51,7 @@ namespace Test
         {
             //Arrange
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8001, CommunicationType.TCP, 5000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
 
             // Act & Assert
 
@@ -63,7 +63,7 @@ namespace Test
         {
             // Arrange
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8000, CommunicationType.TCP, 5000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
             await tcpCommunicationStream.Connect();
 
             // Act & Assert
@@ -75,7 +75,7 @@ namespace Test
         {
             //Arrange
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8000, CommunicationType.TCP, 2000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
 
             //Act
             await tcpServerCommunicationStream.Send(new byte[] { 1, 2, 3 });
@@ -90,7 +90,7 @@ namespace Test
             byte[] sendingdata = new byte[] { 1, 2, 3 };
             byte[] receiveingdata = null;
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8000, CommunicationType.TCP, 2000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
             await tcpCommunicationStream.Connect();
             //Act
 
@@ -104,7 +104,7 @@ namespace Test
         {
             //Arrange
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8000, CommunicationType.TCP, 2000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
 
             //Act
             Assert.ThrowsAsync<ConnectionNotExisting>(async () => await tcpCommunicationStream.Send(new byte[10]));
@@ -115,7 +115,7 @@ namespace Test
         {
             //Arrange
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8000, CommunicationType.TCP, 5000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
 
             // Act
             await tcpCommunicationStream.Connect();
@@ -132,7 +132,7 @@ namespace Test
         {
             // Arrange
             options = new Master.Communication.TcpCommunicationOptions(IPAddress.Loopback, 8000, CommunicationType.TCP, 5000, 8192);
-            tcpCommunicationStream = new Master.Communication.TcpCommunicationStream(options);
+            tcpCommunicationStream = new Master.Communication.TCPCommunicationStream(options);
             await tcpCommunicationStream.Connect();
             var testData = new byte[] { 1, 2, 3, 4 };
 

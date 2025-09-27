@@ -6,7 +6,7 @@ namespace Slave.Communication
     /// <summary>
     /// Interface which describes the important values for TCP communication
     /// </summary>
-    public interface ITcpCommunicationOptions : ICommunicationOptions
+    public interface ITcpCommunicationOptions : ICommunicationStreamOptions
     {
         /// <summary>
         /// IP Address of the server
@@ -17,11 +17,5 @@ namespace Slave.Communication
         /// Port number of the server
         /// </summary>
         int PortNumber { get; }
-
-        /// <summary>
-        /// Size of the connection buffer in bytes
-        /// </summary>
-        int BufferSize { get; }
-
     }
 }

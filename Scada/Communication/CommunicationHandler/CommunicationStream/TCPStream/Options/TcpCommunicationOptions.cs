@@ -6,27 +6,29 @@ namespace Master.Communication
     /// <summary>
     /// Contains all the values for a TCP Communicaiton
     /// </summary>
-    public class TcpCommunicationOptions : ITcpCommunicationOptions
+    public class TCPCommunicationOptions : ITCPCommunicationStreamOptions
     {
         private readonly int timeOut;
         private readonly int bufferSize;
         private readonly int portNumber;
         private readonly IPAddress address;
-        private readonly CommunicationType communicationType;
+        private readonly CommunicationStreamType communicationStreamType;
+        private readonly SecurityMode securityMode;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TcpCommunicationOptions"/> class
+        /// Initializes a new instance of the <see cref="TCPCommunicationOptions"/> class
         /// </summary>
         /// <param name="address">IP Address of the server</param>
         /// <param name="portNumber">Port number of the server</param>
         /// <param name="communicationType">Indicates the communication type which will be used</param>
         /// <param name="timeOut">Time period after which the current command will be interrupted</param>
         /// <param name="bufferSize">Size of the connection buffer in bytes</param>
-        public TcpCommunicationOptions(IPAddress address, int portNumber, CommunicationType communicationType, int timeOut, int bufferSize)
+        public TCPCommunicationOptions(IPAddress address, int portNumber, CommunicationStreamType communicationStreamType,SecurityMode securityMode, int timeOut, int bufferSize)
         {
             this.address = address;
             this.portNumber = portNumber;
-            this.communicationType = communicationType;
+            this.communicationStreamType = communicationStreamType;
+            this.securityMode = securityMode;
             this.timeOut = timeOut;
             this.bufferSize = bufferSize;
         }
@@ -39,11 +41,11 @@ namespace Master.Communication
             }
         }
 
-        public CommunicationType CommunicationType
+        public CommunicationStreamType CommunicationStreamType
         {
             get
             {
-                return communicationType;
+                return communicationStreamType;
             }
         }
 
@@ -68,6 +70,14 @@ namespace Master.Communication
             get
             {
                 return bufferSize;
+            }
+        }
+
+        public SecurityMode SecurityMode
+        {
+            get
+            {
+                return securityMode;
             }
         }
     }

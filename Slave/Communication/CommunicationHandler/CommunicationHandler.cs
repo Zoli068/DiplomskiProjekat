@@ -28,20 +28,21 @@ namespace Slave.Communication
 
         private ICommunicationHandlerOptions options;
         private ICommunicationStream communicationStream;
-        private IAsyncSecureCommunication secureCommunication;
+        private IAsyncSecureCommunication secureCommunication=null;
         private IStateHandler<CommunicationState> stateHandler = new StateHandler<CommunicationState>();
 
-        public CommunicationHandler(ICommunicationHandlerOptions communicationHandlerOptions, ICommunicationOptions communicationOptions, Action<byte[]> RaiseRecivedBytes)
+        public CommunicationHandler(ICommunicationHandlerOptions communicationHandlerOptions, ICommunicationStreamOptions communicationOptions, Action<byte[]> RaiseRecivedBytes)
         {
-            this.raiseRecivedBytes = RaiseRecivedBytes;
+            raiseRecivedBytes = RaiseRecivedBytes;
             options = communicationHandlerOptions;
 
             stateHandler.StateChanged += connectionStateChanged;
 
-            if (options.SecurityMode == SecurityMode.SECURE) { secureCommunication = new SecureCommunication(); }
+            if (options.SecurityMode == SecurityMode.SECURE)
+                secureCommunication = new SecureCommunication();
 
-            if (communicationOptions.CommunicationType == CommunicationType.TCP)
-                communicationStream = new TcpCommunicationStream(communicationOptions as ITcpCommunicationOptions);
+            if (communicationOptions.CommunicationStreamType == CommunicationStreamType.TCP)
+                communicationStream = new TcpCommunicationStream(communicationOptions);
 
             acceptingConnectionTask = new TaskHandler(startAcceptingConnections, false, 0, cts);
             reciverTask = new TaskHandler(recivingData, false, 0, cts);
@@ -56,7 +57,7 @@ namespace Slave.Communication
             {
                 await communicationStream.Accept();
 
-                if (options.SecurityMode == SecurityMode.SECURE)
+                if (secureCommunication!=null)
                     communicationStream.Stream = await secureCommunication.SecureStream(communicationStream.Stream);
 
                 stateHandler.ChangeState(CommunicationState.CONNECTED);

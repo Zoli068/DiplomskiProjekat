@@ -11,7 +11,7 @@ namespace Common.Message
     /// </summary>
     public static class ModbusFunctionFactory
     {
-        public static Dictionary<FunctionCode, Func<IModbusData>> TypeMap;
+        public static Dictionary<FunctionCode, Func<IModbusPDUData>> TypeMap;
 
         static ModbusFunctionFactory()
         {
@@ -19,7 +19,7 @@ namespace Common.Message
 
             if (mode == "Slave")
             {
-                TypeMap = new Dictionary<FunctionCode, Func<IModbusData>>()
+                TypeMap = new Dictionary<FunctionCode, Func<IModbusPDUData>>()
                 {
                     { FunctionCode.ReadCoils, () => new ModbusReadCoilsRequest() },
                     { FunctionCode.ReadDiscreteInputs, () => new ModbusReadDiscreteInputsRequest() },
@@ -38,7 +38,7 @@ namespace Common.Message
             }
             else
             {
-                TypeMap = new Dictionary<FunctionCode, Func<IModbusData>>()
+                TypeMap = new Dictionary<FunctionCode, Func<IModbusPDUData>>()
                 {
                     { FunctionCode.ReadCoils, () => new ModbusReadCoilsResponse() },
                     { FunctionCode.ReadDiscreteInputs, () => new ModbusReadDiscreteInputsResponse() },

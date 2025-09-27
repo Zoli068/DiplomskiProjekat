@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Read Coils Response attributes
     /// </summary>
-    public interface IModbusReadCoilsResponse : IModbusData
+    public interface IModbusReadCoilsResponse : IModbusPDUData
     {
         /// <summary>
         /// Number of bytes contained inside the <see cref="CoilStatus"/>

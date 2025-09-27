@@ -11,7 +11,8 @@ namespace Slave.Communication
         private readonly int portNumber;
         private readonly int bufferSize;
         private readonly IPAddress address;
-        private readonly CommunicationType communicationType;
+        private readonly CommunicationStreamType communicationStreamType;
+        private readonly int timeOut;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TcpCommunicationOptions"/> class
@@ -20,12 +21,13 @@ namespace Slave.Communication
         /// <param name="portNumber">Port number of the server</param>
         /// <param name="communicationType">Indicates the communication type which will be used</param>
         /// <param name="bufferSize">Size of the connection buffer in bytes</param>
-        public TcpCommunicationOptions(IPAddress address, int portNumber, CommunicationType communicationType, int bufferSize)
+        public TcpCommunicationOptions(IPAddress address, int portNumber, CommunicationStreamType communicationStreamType, int bufferSize,int timeOut)
         {
             this.address = address;
             this.portNumber = portNumber;
-            this.communicationType = communicationType;
+            this.communicationStreamType = communicationStreamType;
             this.bufferSize = bufferSize;
+            this.timeOut = timeOut;
         }
 
         public IPAddress Address
@@ -36,11 +38,11 @@ namespace Slave.Communication
             }
         }
 
-        public CommunicationType CommunicationType
+        public CommunicationStreamType CommunicationStreamType
         {
             get
             {
-                return communicationType;
+                return communicationStreamType;
             }
         }
 
@@ -57,6 +59,14 @@ namespace Slave.Communication
             get
             {
                 return bufferSize;
+            }
+        }
+
+        public int TimeOut
+        {
+            get
+            {
+                return timeOut;
             }
         }
     }

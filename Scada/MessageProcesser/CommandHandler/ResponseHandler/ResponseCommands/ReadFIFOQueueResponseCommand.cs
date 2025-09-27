@@ -1,16 +1,12 @@
 ﻿using Common.Command;
 using Common.Message;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Master.MessageProcesser
 {
-    public class ReadFIFOQueueResponseCommand : IResponseMessageDataCommand<IModbusData>
+    public class ReadFIFOQueueResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusData request, IModbusData response)
+        public void Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusReadFIFOQueueResponse res= response as ModbusReadFIFOQueueResponse;
             ModbusReadFIFOQueueRequest req= request as ModbusReadFIFOQueueRequest;

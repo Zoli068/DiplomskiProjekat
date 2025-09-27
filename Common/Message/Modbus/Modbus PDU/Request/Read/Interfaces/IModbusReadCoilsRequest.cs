@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Read Coils Request attributes
     /// </summary>
-    public interface IModbusReadCoilsRequest : IModbusData
+    public interface IModbusReadCoilsRequest : IModbusPDUData
     {
         /// <summary>
         /// Address from we want to get the values

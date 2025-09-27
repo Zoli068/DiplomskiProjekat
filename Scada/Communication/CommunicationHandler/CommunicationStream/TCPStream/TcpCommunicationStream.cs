@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 namespace Master.Communication
 {
     /// <summary>
-    /// The <see cref="TcpCommunicationStream"/> responsible for the TCP Communication
+    /// The <see cref="TCPCommunicationStream"/> responsible for the TCP Communication
     /// </summary>
-    public class TcpCommunicationStream : ICommunicationStream
+    public class TCPCommunicationStream : ICommunicationStream
     {
         private Stream stream;
         private TcpClient client;
-        private readonly ITcpCommunicationOptions options;
+        private readonly ITCPCommunicationStreamOptions options;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TcpCommunicationStream"/> class
+        /// Initializes a new instance of the <see cref="TCPCommunicationStream"/> class
         /// </summary>
-        /// <param name="options"><see cref="TcpCommunicationOptions"/> which holds all the option values</param>
-        public TcpCommunicationStream(ICommunicationOptions options)
+        /// <param name="options"><see cref="TCPCommunicationOptions"/> which holds all the option values</param>
+        public TCPCommunicationStream(ICommunicationStreamOptions options)
         {
-            this.options = options as ITcpCommunicationOptions;
+            this.options = options as ITCPCommunicationStreamOptions;
             client = new TcpClient();
         }
 

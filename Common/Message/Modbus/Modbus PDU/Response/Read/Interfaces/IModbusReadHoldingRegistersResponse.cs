@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Read Holding Registers attributes
     /// </summary>
-    public interface IModbusReadHoldingRegistersResponse : IModbusData
+    public interface IModbusReadHoldingRegistersResponse : IModbusPDUData
     {
         /// <summary>
         /// Number of bytes contained inside the <see cref="RegisterValue"/>

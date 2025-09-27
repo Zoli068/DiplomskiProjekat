@@ -8,7 +8,7 @@ namespace Slave.CommandHandler.Commands
     /// <summary>
     /// Class that will handle the incoming <see cref="ModbusReadHoldingRegistersRequest"/>
     /// </summary>
-    public class ReadHoldingRegistersCommand : IMessageDataCommand<IModbusData>
+    public class ReadHoldingRegistersCommand : IMessageDataCommand<IModbusPDUData>
     {
         private IPointsDataBase pointsDataBase;
 
@@ -17,8 +17,7 @@ namespace Slave.CommandHandler.Commands
             this.pointsDataBase = pointsDataBase;
         }
 
-
-        public IModbusData Execute(IModbusData modbusData)
+        public IModbusPDUData Execute(IModbusPDUData modbusData)
         {
             ModbusReadHoldingRegistersRequest request = modbusData as ModbusReadHoldingRegistersRequest;
 

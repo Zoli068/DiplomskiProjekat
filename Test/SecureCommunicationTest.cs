@@ -12,13 +12,13 @@ namespace Test
     [TestFixture]
     public class SecureCommunicationTest
     {
-        private Master.Communication.SecureCommunication secureMasterCommunication;
+        private Master.Communication.SecureTCPCommunicationStream secureMasterCommunication;
         private Slave.Communication.SecureCommunication secureSlaveCommunication;
 
         [SetUp]
         public void Setup()
         {
-            secureMasterCommunication = new Master.Communication.SecureCommunication();
+            secureMasterCommunication = new Master.Communication.SecureTCPCommunicationStream();
             secureSlaveCommunication = new Slave.Communication.SecureCommunication();
         }
 

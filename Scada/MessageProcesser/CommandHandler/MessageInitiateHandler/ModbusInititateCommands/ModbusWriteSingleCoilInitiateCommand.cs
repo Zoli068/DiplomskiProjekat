@@ -6,9 +6,9 @@ namespace Master.CommandHandler.MessageInitiateHandler
     /// <summary>
     /// Command for handling the ModbusDTO when we want to create a request: <see cref="ModbusWriteSingleCoilRequest"/>
     /// </summary>
-    public class ModbusWriteSingleCoilInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusData>
+    public class ModbusWriteSingleCoilInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusPDUData>
     {
-        public IModbusData InitiateMessage(IMessageDTO messageDTO)
+        public IModbusPDUData InitiateMessage(IMessageDTO messageDTO)
         {
             InitiateWriteSingleModbusDTO DTO = messageDTO as InitiateWriteSingleModbusDTO;
 

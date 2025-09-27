@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Message
 {
-    public interface IModbusWriteFileRecordRequest:IModbusData
+    public interface IModbusWriteFileRecordRequest:IModbusPDUData
     {
         byte RequestDataLength { get; set; }
         

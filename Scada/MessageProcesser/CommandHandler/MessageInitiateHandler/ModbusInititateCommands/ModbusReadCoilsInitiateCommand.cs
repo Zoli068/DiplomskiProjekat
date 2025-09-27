@@ -6,9 +6,9 @@ namespace Master.CommandHandler.MessageInitiateHandler
     /// <summary>
     /// Command for handling the ModbusDTO when we want to create a request: <see cref="ModbusReadCoilsRequest"/>
     /// </summary>
-    public class ModbusReadCoilsInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusData>
+    public class ModbusReadCoilsInitiateCommand : IMessageInitiateCommand<IMessageDTO, IModbusPDUData>
     {
-        IModbusData IMessageInitiateCommand<IMessageDTO, IModbusData>.InitiateMessage(IMessageDTO messageDTO)
+        IModbusPDUData IMessageInitiateCommand<IMessageDTO, IModbusPDUData>.InitiateMessage(IMessageDTO messageDTO)
         {
             InitiateReadModbusDTO DTO = messageDTO as InitiateReadModbusDTO;
 

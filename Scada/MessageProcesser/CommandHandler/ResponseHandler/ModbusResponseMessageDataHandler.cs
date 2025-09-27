@@ -10,13 +10,13 @@ namespace Master.CommandHandler
     /// <summary>
     /// Handles all the possible modbus responses
     /// </summary>
-    public class ModbusResponseMessageDataHandler : IResponseMessageDataHandler
+    public class ModbusPDUResponseHandler : IResponseHandler
     {
-        private readonly Dictionary<FunctionCode, IResponseMessageDataCommand<IModbusData>> commands;
+        private readonly Dictionary<FunctionCode, IResponseCommand<IModbusPDUData>> commands;
 
-        public ModbusResponseMessageDataHandler()
+        public ModbusPDUResponseHandler()
         {
-            commands = new Dictionary<FunctionCode, IResponseMessageDataCommand<IModbusData>>()
+            commands = new Dictionary<FunctionCode, IResponseCommand<IModbusPDUData>>()
             {
                 {FunctionCode.ReadCoils,new ReadCoilsResponseCommand() },
                 {FunctionCode.ReadDiscreteInputs,new ReadDiscreteResponseCommand() },
@@ -36,7 +36,7 @@ namespace Master.CommandHandler
 
         public void ProcessMessageData(IMessageData request, IMessageData response)
         {
-            IResponseMessageDataCommand<IModbusData> command;
+            IResponseCommand<IModbusPDUData> command;
 
             if (((byte)(((IModbusPDU)response).FunctionCode) & 0x80) == 0)
             {

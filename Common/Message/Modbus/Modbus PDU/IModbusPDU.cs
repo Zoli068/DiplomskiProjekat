@@ -13,6 +13,6 @@
         /// <summary>
         /// Contains the Data for the speicifed function code
         /// </summary>
-        IModbusData Data { get; set; }
+        IModbusPDUData Data { get; set; }
     }
 }

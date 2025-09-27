@@ -11,7 +11,6 @@ namespace Master
         private IMessageProcesser<FunctionCode> messageProcesser;
         private ConsoleUI consoleUI;
 
-        //private UIHandler
         public Scada()
         {
             communication = new Communication.Communication();

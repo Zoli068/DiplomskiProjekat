@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Read Discrete Inputs Response attributes
     /// </summary>
-    public interface IModbusReadDiscreteInputsResponse : IModbusData
+    public interface IModbusReadDiscreteInputsResponse : IModbusPDUData
     {
         /// <summary>
         /// Number of bytes contained inside the <see cref="InputStatus"/>

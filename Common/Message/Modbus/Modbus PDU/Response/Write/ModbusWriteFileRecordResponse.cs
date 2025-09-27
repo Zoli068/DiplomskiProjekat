@@ -1,9 +1,5 @@
 ﻿using Common.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Common.Message
 {
@@ -19,7 +15,7 @@ namespace Common.Message
 
         public ModbusWriteFileRecordResponse() { }
 
-        public ModbusWriteFileRecordResponse(byte responseDataLength, byte[] referenceType, ushort[] fileNumber, ushort[] recordNumber, ushort[] recordLength, short[][] recordData)
+        public ModbusWriteFileRecordResponse(byte responseDataLength, byte[] referrenceType, ushort[] fileNumber, ushort[] recordNumber, ushort[] recordLength, short[][] recordData)
         {
             this.responseDataLength = responseDataLength;
             this.referenceType = referenceType;

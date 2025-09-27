@@ -31,16 +31,21 @@ namespace Master.Communication
         private IAsyncSecureCommunication secureCommunication;
         private IStateHandler<CommunicationState> stateHandler = new StateHandler<CommunicationState>();
 
-        public CommunicationHandler(ICommunicationHandlerOptions communicationHandlerOptions, ICommunicationOptions communicationOptions, Action<byte[]> RaiseBytesRecived)
+        public CommunicationHandler(ICommunicationHandlerOptions communicationHandlerOptions, ICommunicationStreamOptions communicationStreamOptions, Action<byte[]> RaiseBytesRecived)
         {
             raiseBytesRecived = RaiseBytesRecived;
             options = communicationHandlerOptions;
 
             stateHandler.StateChanged += connectionStateChanged;
 
-            if (communicationOptions.CommunicationType == CommunicationType.TCP) { communicationStream = new TcpCommunicationStream(communicationOptions as ITcpCommunicationOptions); }
+            if (communicationStreamOptions.CommunicationStreamType == CommunicationStreamType.TCP)
+            {
+                communicationStream = new TCPCommunicationStream(communicationStreamOptions);
 
-            if (options.SecurityMode == SecurityMode.SECURE) { secureCommunication = new SecureCommunication(); }
+                if ((communicationStreamOptions as TCPCommunicationOptions).SecurityMode == SecurityMode.SECURE){
+                    secureCommunication = new SecureTCPCommunicationStream();
+                }
+            }
 
             if (options.ReconnectInterval > 0)
                 connectionTask = new TaskHandler(connectTheStream, false, options.ReconnectInterval, cts);
@@ -59,7 +64,7 @@ namespace Master.Communication
             {
                 await communicationStream.Connect();
 
-                if (options.SecurityMode == SecurityMode.SECURE)
+                if (secureCommunication!=null)
                 {
                     communicationStream.Stream = await secureCommunication.SecureStream(communicationStream.Stream);
                 }

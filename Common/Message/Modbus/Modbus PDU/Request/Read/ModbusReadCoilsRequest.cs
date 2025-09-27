@@ -57,6 +57,5 @@ namespace Common.Message
                 quantityOfCoils = value;
             }
         }
-
     }
 }

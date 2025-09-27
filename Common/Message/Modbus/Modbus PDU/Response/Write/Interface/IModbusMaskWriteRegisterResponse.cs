@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Common.Message.Modbus
+﻿namespace Common.Message.Modbus
 {
     /// <summary>
     /// Describes a Modbus Mask Write Register Response attributes
     /// </summary>
-    public interface IModbusMaskWriteRegisterResponse:IModbusData
+    public interface IModbusMaskWriteRegisterResponse:IModbusPDUData
     {
         /// <summary>
         /// Address where we want to write

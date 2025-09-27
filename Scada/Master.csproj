@@ -88,9 +88,9 @@
     <Compile Include="Communication\CommunicationHandler\CommunicationStream\SecureCommunication.cs" />
     <Compile Include="Communication\CommunicationHandler\CommunicationHandler.cs" />
     <Compile Include="Communication\CommunicationHandler\CommunicationStream\ICommunicationStream.cs" />
-    <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\Options\ITcpCommunicationOptions.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\Options\ITCPCommunicationStreamOptions.cs" />
     <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\TcpCommunicationStream.cs" />
-    <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\Options\TcpCommunicationOptions.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\Options\TCPCommunicationOptions.cs" />
     <Compile Include="MessageProcesser\ModbusMessageProcesser.cs" />
     <Compile Include="MessageProcesser\Message\MessageHistory\Exceptions\MessageDataIdentificatorCollisionException.cs" />
     <Compile Include="MessageProcesser\Message\MessageHistory\Exceptions\MessageDataNotFoundException.cs" />

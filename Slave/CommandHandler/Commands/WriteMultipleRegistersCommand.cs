@@ -8,7 +8,7 @@ namespace Slave.CommandHandler.Commands
     /// <summary>
     /// Class that will handle the incoming <see cref="ModbusWriteMultipleRegistersRequest"/>
     /// </summary>
-    public class WriteMultipleRegistersCommand : IMessageDataCommand<IModbusData>
+    public class WriteMultipleRegistersCommand : IMessageDataCommand<IModbusPDUData>
     {
         private IPointsDataBase pointsDataBase;
 
@@ -17,7 +17,7 @@ namespace Slave.CommandHandler.Commands
             this.pointsDataBase = pointsDataBase;
         }
 
-        public IModbusData Execute(IModbusData data)
+        public IModbusPDUData Execute(IModbusPDUData data)
         {
             ModbusWriteMultipleRegistersRequest request = data as ModbusWriteMultipleRegistersRequest;
 

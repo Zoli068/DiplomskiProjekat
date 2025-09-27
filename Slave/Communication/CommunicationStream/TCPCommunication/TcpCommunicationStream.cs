@@ -23,7 +23,7 @@ namespace Slave.Communication
         /// Initializes a new instance of the <see cref="TcpCommunicationStream"/> class
         /// </summary>
         /// <param name="options"><see cref="TcpCommunicationOptions"/> which holds all the option values</param
-        public TcpCommunicationStream(ICommunicationOptions communicationOwptions)
+        public TcpCommunicationStream(ICommunicationStreamOptions communicationOwptions)
         {
             options = communicationOwptions as ITcpCommunicationOptions;
             IPEndPoint endPoint = new IPEndPoint(options.Address, options.PortNumber);

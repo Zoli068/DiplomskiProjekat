@@ -8,7 +8,7 @@ namespace Slave.CommandHandler.Commands
     /// <summary>
     /// Class that will handle the incoming <see cref="ModbusMaskWriteRegisterRequest"/>
     /// </summary>
-    public class MaskWriteRegisterCommand:IMessageDataCommand<IModbusData>
+    public class MaskWriteRegisterCommand:IMessageDataCommand<IModbusPDUData>
     {
         private IPointsDataBase pointsDataBase;
 
@@ -17,7 +17,7 @@ namespace Slave.CommandHandler.Commands
             this.pointsDataBase = pointsDataBase;
         }
 
-        public IModbusData Execute(IModbusData data)
+        public IModbusPDUData Execute(IModbusPDUData data)
         {
             ModbusMaskWriteRegisterRequest request = data as ModbusMaskWriteRegisterRequest;
 

@@ -7,9 +7,9 @@ namespace Master.CommandHandler.ResponseCommands
     /// <summary>
     /// Class that will handle the incoming <see cref="ModbusWriteSingleCoilResponse"/>
     /// </summary>
-    public class WriteSingleCoilResponseCommand : IResponseMessageDataCommand<IModbusData>
+    public class WriteSingleCoilResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusData request, IModbusData response)
+        public void Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusWriteSingleCoilResponse res = response as ModbusWriteSingleCoilResponse;
 

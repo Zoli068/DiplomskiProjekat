@@ -3,7 +3,6 @@ using Common.Utilities;
 using Master.CommandHandler.MessageInitiateHandler;
 using Master.MessageProcesser.MessageInitiateHandler;
 using System;
-using System.Net;
 using System.Threading;
 
 namespace Master.UI

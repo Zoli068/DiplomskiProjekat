@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a ModbusError which is the ModbusData for the ModbusPDU
     /// </summary>
-    public interface IModbusError : IModbusData
+    public interface IModbusError : IModbusPDUData
     {
         /// <summary>
         /// The code of the error

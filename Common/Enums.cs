@@ -3,7 +3,7 @@
     /// <summary>
     /// Enumeration of the possible communication type
     /// </summary>
-    public enum CommunicationType : short
+    public enum CommunicationStreamType : short
     {
         TCP,
         SERIAL

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 namespace Common.TaskHandler
 {
-
     /// <summary>
     /// <see cref="TaskHandler"/> class creates an own <see cref="Task"/> for an <see cref="Func{Task}<"/> method
     /// and also provides possibilites to execute that method just once, or just to be repeatedly executed

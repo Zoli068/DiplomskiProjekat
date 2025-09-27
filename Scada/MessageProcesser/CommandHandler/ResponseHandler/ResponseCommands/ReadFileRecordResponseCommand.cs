@@ -1,16 +1,12 @@
 ﻿using Common.Command;
 using Common.Message;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Master.MessageProcesser
 {
-    public class ReadFileRecordResponseCommand : IResponseMessageDataCommand<IModbusData>
+    public class ReadFileRecordResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusData request, IModbusData response)
+        public void Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusReadFileRecordResponse res= response as ModbusReadFileRecordResponse;
 

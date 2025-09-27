@@ -7,9 +7,9 @@ namespace Master.CommandHandler.ResponseCommands
     /// <summary>
     /// Class that will handle the incoming <see cref="ModbusWriteSingleRegisterResponse"/>
     /// </summary>
-    public class WriteSingleRegisterResponseCommand : IResponseMessageDataCommand<IModbusData>
+    public class WriteSingleRegisterResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusData request, IModbusData response)
+        public void Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusWriteSingleRegisterResponse res = response as ModbusWriteSingleRegisterResponse;
 
@@ -22,9 +22,6 @@ namespace Master.CommandHandler.ResponseCommands
             Console.WriteLine(res.RegisterAddress + " address:" + res.RegisterValue);
 
             Console.WriteLine("-------------------------------");
-
-
         }
     }
 }
-

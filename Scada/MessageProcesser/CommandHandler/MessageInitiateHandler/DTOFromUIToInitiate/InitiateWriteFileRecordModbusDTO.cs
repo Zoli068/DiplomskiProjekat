@@ -1,10 +1,4 @@
-﻿using Common.Message;
-using Common.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Common.Utilities;
 
 namespace Master.MessageProcesser.MessageInitiateHandler
 {

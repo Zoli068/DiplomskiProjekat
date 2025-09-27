@@ -9,7 +9,7 @@ namespace Common.Message
     /// <summary>
     /// Describes a Modbus Read Write Multiple Registers Request attributes
     /// </summary>
-    public interface IModbusReadWriteMultipleRegistersRequest:IModbusData
+    public interface IModbusReadWriteMultipleRegistersRequest:IModbusPDUData
     {
         ushort ReadStartingAddress { get; set; }
 

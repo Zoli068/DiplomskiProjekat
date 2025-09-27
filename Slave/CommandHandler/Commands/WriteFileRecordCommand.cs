@@ -3,14 +3,10 @@ using Common.FileRecord;
 using Common.Message;
 using Common.PointsDataBase;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Slave.CommandHandler
 {
-    public class WriteFileRecordCommand : IMessageDataCommand<IModbusData>
+    public class WriteFileRecordCommand : IMessageDataCommand<IModbusPDUData>
     {
         private IFileRecord fileRecord;
 
@@ -19,7 +15,7 @@ namespace Slave.CommandHandler
             this.fileRecord = fileRecord;
         }
 
-        public IModbusData Execute(IModbusData data)
+        public IModbusPDUData Execute(IModbusPDUData data)
         {
             ModbusWriteFileRecordRequest request = data as ModbusWriteFileRecordRequest;
 

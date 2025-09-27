@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Write Single Register Response attributes
     /// </summary>
-    public interface IModbusWriteSingleRegisterResponse : IModbusData
+    public interface IModbusWriteSingleRegisterResponse : IModbusPDUData
     {
         /// <summary>
         /// Address where we wrote our value

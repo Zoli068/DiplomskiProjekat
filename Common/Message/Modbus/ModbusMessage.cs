@@ -3,20 +3,20 @@
 namespace Common.Message
 {
     /// <summary>
-    /// The implementation of a Modbus Message
+    /// The implementation of a TCPModbus Message
     /// </summary>
-    public class ModbusMessage : IMessage
+    public class TCPModbusMessage : IMessage
     {
         private IMessageData messageData;
         private IMessageHeader messageHeader;
 
-        public ModbusMessage()
+        public TCPModbusMessage()
         {
             messageHeader = new TCPModbusHeader();
             messageData = new ModbusPDU();
         }
 
-        public ModbusMessage(IMessageData messageData, IMessageHeader messageHeader)
+        public TCPModbusMessage(IMessageData messageData, IMessageHeader messageHeader)
         {
             this.messageData = messageData;
             this.messageHeader = messageHeader;
@@ -61,7 +61,5 @@ namespace Common.Message
                 messageHeader = value;
             }
         }
-
-
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes a Modbus Write Multiple Registers Request attributes
     /// </summary>
-    public interface IModbusWriteMultipleRegistersRequest : IModbusData
+    public interface IModbusWriteMultipleRegistersRequest : IModbusPDUData
     {
         /// <summary>
         /// Address where we want to write the values
