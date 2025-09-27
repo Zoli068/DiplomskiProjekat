@@ -21,7 +21,7 @@ namespace Slave.CommandHandler.Commands
         {
             ModbusWriteSingleCoilRequest request = data as ModbusWriteSingleCoilRequest;
 
-            if (!(request.OutputValue != 0) || (request.OutputValue != 65280))
+            if (!(request.OutputValue == 0 || request.OutputValue == 65280))
             {
                 throw new ValueOutOfIntervalException();
             }
