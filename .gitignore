@@ -1,0 +1,15 @@
+**/.vs/
+
+**/*.sdf
+
+**/*.suo
+
+**/*.user
+
+**/*.opensdf
+
+**/[Dd]ebug/
+
+**/[Rr]elease/
+
+**/[Oo]bj/

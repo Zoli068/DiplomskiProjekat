@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{903C8049-239F-429B-8F2F-F1CD6D41F45D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command\Exception\ValueOutOfIntervalException.cs" />
+    <Compile Include="Command\IMessageDataCommand.cs" />
+    <Compile Include="Command\IMessageDataHandler.cs" />
+    <Compile Include="Command\IResponseMessageDataCommand.cs" />
+    <Compile Include="Command\IResponseMessageDataHandler.cs" />
+    <Compile Include="Communication\Exceptions\CommunicationExceptions\ConnectionAlreadyExisting.cs" />
+    <Compile Include="Communication\Exceptions\CommunicationExceptions\ConnectionErrorException.cs" />
+    <Compile Include="Communication\Exceptions\CommunicationExceptions\ConnectionNotExisting.cs" />
+    <Compile Include="Communication\Exceptions\CommunicationExceptions\ListeningNotSuccessedException.cs" />
+    <Compile Include="Communication\Exceptions\CommunicationExceptions\UnsuccessfullConnectionException.cs" />
+    <Compile Include="Communication\Exceptions\SecureExceptions\AuthenticationFailedException.cs" />
+    <Compile Include="Communication\IAsyncSecureCommunication.cs" />
+    <Compile Include="Communication\ICommunication.cs" />
+    <Compile Include="FIFOQueue\FIFOQueue.cs" />
+    <Compile Include="FIFOQueue\IFIFOQueue.cs" />
+    <Compile Include="FileRecord\Exceptions\UnsuccessfullReadFileRecordException.cs" />
+    <Compile Include="FileRecord\Exceptions\UnsuccessfullWriteFileRecordException.cs" />
+    <Compile Include="FileRecord\FileRecord.cs" />
+    <Compile Include="FileRecord\IFileRecord.cs" />
+    <Compile Include="Message\Interface\IMessageInitiateCommand.cs" />
+    <Compile Include="Message\Interface\IMessageProcesser.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\ReadWrite\IModbusReadWriteMultipleRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\ReadWrite\ModbusReadWriteMultipleRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\Interfaces\IModbusReadFIFOQueueRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\Interfaces\IModbusReadFileRecordRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\ModbusReadFIFOQueueRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\ModbusReadFileRecordRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\Interface\IModbusMaskWriteRegisterRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\Interface\IModbusWriteFileRecordRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\ModbusMaskWriteRegisterRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\ModbusWriteFileRecordRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\ReadWrite\IModbusReadWriteMultpleRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\ReadWrite\ModbusReadWriteMultipleRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\Interfaces\IModbusReadFIFOQueueResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\Interfaces\IModbusReadFileRecordResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\ModbusReadFIFOQueueResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\ModbusReadFileRecordResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\Interface\IModbusMaskWriteRegisterResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\Interface\IModbusWriteFileRecordResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\ModbusMaskWriteRegisterResponsecs.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\ModbusWriteFileRecordResponse.cs" />
+    <Compile Include="PointsDataBase\Exceptions\CantWriteInputException.cs" />
+    <Compile Include="PointsDataBase\Exceptions\InvalidAddressException.cs" />
+    <Compile Include="PointsDataBase\Exceptions\PointTypeDifferenceException.cs" />
+    <Compile Include="PointsDataBase\IPointsDataBase.cs" />
+    <Compile Include="PointsDataBase\PointsDataBase.cs" />
+    <Compile Include="PointsDataBase\PointsType.cs" />
+    <Compile Include="Message\Exceptions\NotSupportedMessageException.cs" />
+    <Compile Include="Message\Interface\IMessage.cs" />
+    <Compile Include="Message\Interface\IMessageData.cs" />
+    <Compile Include="Message\MessageHandler\IMessageHandler.cs" />
+    <Compile Include="Message\Interface\IMessageHeader.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Error\IModbusError.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Error\ModbusError.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\IModbusData.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\IModbusPDU.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\ModbusPDU.cs" />
+    <Compile Include="Message\Modbus\ModbusEnums.cs" />
+    <Compile Include="Message\Modbus\ModbusMessage.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\Interfaces\IModbusReadCoilsRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\Interfaces\IModbusReadDiscreteInputsRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\Interfaces\IModbusReadHoldingRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\Interfaces\IModbusReadInputRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\ModbusReadCoilsRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\ModbusReadDiscreteInputsRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\ModbusReadHoldingRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Read\ModbusReadInputRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\Interface\IModbusWriteMultipleCoilsRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\Interface\IModbusWriteMultipleRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\Interface\IModbusWriteSingleCoilRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\Interface\IModbusWriteSingleRegisterRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\ModbusWriteMultipleCoilsRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\ModbusWriteMultipleRegistersRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\ModbusWriteSingleCoilRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Request\Write\ModbusWriteSingleRegisterRequest.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\Interfaces\IModbusReadCoilsResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\Interfaces\IModbusReadDiscreteInputsResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\Interfaces\IModbusReadHoldingRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\Interfaces\IModbusReadInputRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\ModbusReadCoilsResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\ModbusReadDiscreteInputsResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\ModbusReadHoldingRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Read\ModbusReadInputRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\Interface\IModbusWriteMultipleRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\Interface\IModbusWriteMultipleCoilsResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\Interface\IModbusWriteSingleCoilResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\Interface\IModbusWriteSingleRegisterResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\ModbusWriteMultipleCoilsResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\ModbusWriteMultipleRegistersResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\ModbusWriteSingleCoilResponse.cs" />
+    <Compile Include="Message\Modbus\Modbus PDU\Response\Write\ModbusWriteSingleRegisterResponse.cs" />
+    <Compile Include="Message\Modbus\ModbusFunctionFactory.cs" />
+    <Compile Include="Message\Modbus\TCP Modbus\ITCPModbusHeader.cs" />
+    <Compile Include="Message\Modbus\TCP Modbus\TCPModbusHeader.cs" />
+    <Compile Include="Serialization\IDeserialize.cs" />
+    <Compile Include="Serialization\ISerialize.cs" />
+    <Compile Include="Serialization\Serialization.cs" />
+    <Compile Include="StateHandler\StateHandler.cs" />
+    <Compile Include="Communication\ICommunicationOptions.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="StateHandler\IStateHandler.cs" />
+    <Compile Include="StateHandler\IStateUpdater.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskHandler\TaskHandler.cs" />
+    <Compile Include="Serialization\Exceptions\NotEnoughBytesException.cs" />
+    <Compile Include="Serialization\Exceptions\SerializationException.cs" />
+    <Compile Include="Utilities\ByteValueConverter.cs" />
+    <Compile Include="Utilities\IMessageDTO.cs" />
+    <Compile Include="Utilities\MessageDTOBadValuesException.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

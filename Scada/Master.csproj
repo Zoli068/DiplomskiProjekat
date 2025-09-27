@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B2D63C91-0CD3-4862-8878-EDC0A6BD3565}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Master</RootNamespace>
+    <AssemblyName>Master</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateMaskWriteModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateReadFIFOModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateReadFileRecordModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateReadModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateReadWriteMultipleRegistersModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateWriteFileRecordModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateWriteMultipleModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\DTOFromUIToInitiate\InitiateWriteSingleModbusDTO.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\IMessageInitiateHandler.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusMaskWriteRegisterInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusReadCoilsInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusReadDiscreteInputsInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusReadFIFOQueueInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusReadFileRecordInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusReadHoldingRegistersInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusReadInputRegistersInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusReadWriteMultipleRegistersInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusWriteFileRecordInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusWriteMultipleCoilsInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusWriteMultipleRegistersInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusWriteSingleCoilInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusInititateCommands\ModbusWriteSingleRegisterInitiateCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\MessageInitiateHandler\ModbusMessageInitiateHandler.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ModbusResponseMessageDataHandler.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\MaskWriteRegisterResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\ReadCoilsResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\ReadDiscreteResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\ReadFIFOQueueResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\ReadFileRecordResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\ReadHoldingRegistersResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\ReadInputRegistersResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\ReadWriteMultipleRegistersResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\WriteFileRecordResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\WriteMultipleCoilsResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\WriteMultipleRegistersResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\WriteSingleCoilResponseCommand.cs" />
+    <Compile Include="MessageProcesser\CommandHandler\ResponseHandler\ResponseCommands\WriteSingleRegisterResponseCommand.cs" />
+    <Compile Include="Communication\Communication.cs" />
+    <Compile Include="Communication\CommunicationHandler\Options\CommunicationHandlerOptions.cs" />
+    <Compile Include="Communication\CommunicationHandler\Options\ICommunicationHandlerOptions.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationStream\SecureCommunication.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationHandler.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationStream\ICommunicationStream.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\Options\ITcpCommunicationOptions.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\TcpCommunicationStream.cs" />
+    <Compile Include="Communication\CommunicationHandler\CommunicationStream\TCPStream\Options\TcpCommunicationOptions.cs" />
+    <Compile Include="MessageProcesser\ModbusMessageProcesser.cs" />
+    <Compile Include="MessageProcesser\Message\MessageHistory\Exceptions\MessageDataIdentificatorCollisionException.cs" />
+    <Compile Include="MessageProcesser\Message\MessageHistory\Exceptions\MessageDataNotFoundException.cs" />
+    <Compile Include="MessageProcesser\Message\MessageHistory\IMessageDataHistory.cs" />
+    <Compile Include="MessageProcesser\Message\MessageHistory\ModbusMessageDataHistory.cs" />
+    <Compile Include="MessageProcesser\Message\TCPModbusMessageHandler.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scada.cs" />
+    <Compile Include="UI\ConsoleUI.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{903C8049-239F-429B-8F2F-F1CD6D41F45D}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
