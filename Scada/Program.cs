@@ -6,7 +6,6 @@
         static void Main(string[] args)
         {
             Scada scada = new Scada();
-            scada.Start();
         }
     }
 }

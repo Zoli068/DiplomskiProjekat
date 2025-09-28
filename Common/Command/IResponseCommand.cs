@@ -1,4 +1,6 @@
-﻿namespace Common.Command
+﻿using Common.Utilities;
+
+namespace Common.Command
 {
     /// <summary>
     /// Interfaces which describes the method that need to be 
@@ -11,6 +13,6 @@
         /// </summary>
         /// <param name="request">The original request messageData</param>
         /// <param name="response">The response messageData</param>
-        void Execute(T request, T response);
+        IMessageDTO Execute(T request, T response);
     }
 }

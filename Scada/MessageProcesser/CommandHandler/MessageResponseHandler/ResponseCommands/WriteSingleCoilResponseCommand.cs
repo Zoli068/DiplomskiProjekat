@@ -1,6 +1,7 @@
 ﻿using Common.Command;
 using Common.Message;
-using System;
+using Common.Utilities;
+using Master.MessageProcesser.CommandHandler.MessageInitiateHandler.DTOToUIResponse;
 
 namespace Master.CommandHandler.ResponseCommands
 {
@@ -9,15 +10,15 @@ namespace Master.CommandHandler.ResponseCommands
     /// </summary>
     public class WriteSingleCoilResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusPDUData request, IModbusPDUData response)
+        public IMessageDTO Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusWriteSingleCoilResponse res = response as ModbusWriteSingleCoilResponse;
-
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Write Single Coil Response:");
-            Console.WriteLine("--------------------------------------------------------------");
-
             ModbusWriteSingleCoilRequest req = request as ModbusWriteSingleCoilRequest;
+
+            WriteCoilsResponseDTO responseDTO=new WriteCoilsResponseDTO();
+
+            responseDTO.Address = req.OutputAddress;
+            responseDTO.Values = new byte[1];
 
             byte temp;
             if (req.OutputValue == 0)
@@ -29,8 +30,9 @@ namespace Master.CommandHandler.ResponseCommands
                 temp = 1;
             }
 
-            Console.WriteLine(req.OutputAddress + " address: " + temp);
-            Console.WriteLine("-------------------------------");
+            responseDTO.Values[0] = temp;
+
+            return responseDTO;
         }
     }
 }

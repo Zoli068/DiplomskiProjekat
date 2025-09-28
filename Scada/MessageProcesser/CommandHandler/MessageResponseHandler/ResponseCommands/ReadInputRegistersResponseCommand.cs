@@ -1,6 +1,7 @@
 ﻿using Common.Command;
 using Common.Message;
-using System;
+using Common.Utilities;
+using Master.MessageProcesser.CommandHandler.MessageInitiateHandler.DTOToUIResponse;
 
 namespace Master.CommandHandler.ResponseCommands
 {
@@ -9,28 +10,25 @@ namespace Master.CommandHandler.ResponseCommands
     /// </summary>
     public class ReadInputRegistersResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusPDUData request, IModbusPDUData response)
+        public IMessageDTO Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusReadInputRegistersResponse res = response as ModbusReadInputRegistersResponse;
-
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Read Input Registers Response:");
-            Console.WriteLine("--------------------------------------------------------------");
-
             ModbusReadInputRegistersRequest req = request as ModbusReadInputRegistersRequest;
 
-            Console.WriteLine("Quantity of input registers:" + req.QuantityOfInputRegisters);
+            ReadRegistersResponseDTO responseDTO = new ReadRegistersResponseDTO();
+
+            responseDTO.Address = req.StartingAddress;
+            responseDTO.Values = new short[req.QuantityOfInputRegisters];
 
             short temp;
             for (int i = 0; i < req.QuantityOfInputRegisters; i++)
             {
-                Console.WriteLine("-------------------------------");
                 temp = res.InputRegisters[i];
-                Console.WriteLine((req.StartingAddress + i) + " address:" + temp);
+
+                responseDTO.Values[i] = temp;
             }
 
-            Console.WriteLine("-------------------------------");
-
+            return responseDTO;
         }
     }
 }

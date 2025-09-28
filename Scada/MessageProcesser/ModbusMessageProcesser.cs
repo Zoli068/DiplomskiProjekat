@@ -1,9 +1,11 @@
-﻿using Common.Communication;
+﻿using Common.Command;
+using Common.Communication;
 using Common.Message;
 using Common.Utilities;
 using Master.CommandHandler;
 using Master.CommandHandler.MessageInitiateHandler;
 using Master.Communication;
+using System;
 
 namespace Master.MessageProcesser
 {
@@ -14,10 +16,15 @@ namespace Master.MessageProcesser
     {
         private IMessageHandler messageHandler;
         private IMessageInitiateHandler<FunctionCode> messageInitiateHandler;
+        private IResponseHandler responsePDUHandler;
 
-        public ModbusMessageProcesser(ICommunication communication)
+
+        public ModbusMessageProcesser(ICommunication communication, Action<FunctionCode, IMessageDTO> responseRecived)
         {
-            messageHandler = new TCPModbusMessageHandler(communication.SendBytes);
+            responsePDUHandler = new ModbusPDUResponseHandler(responseRecived);
+            
+
+            messageHandler = new TCPModbusMessageHandler(communication.SendBytes, responsePDUHandler);
             communication.BytesRecived += messageHandler.ProcessBytes;
             messageInitiateHandler = new ModbusMessageInitiateHandler(messageHandler.SendMessage);
         }
@@ -25,8 +32,6 @@ namespace Master.MessageProcesser
         public void InitateMessage(FunctionCode code, IMessageDTO messageDTO)
         {
             messageInitiateHandler.InitiateMessage(code, messageDTO);
-
-            //return i 
         }
     }
 }

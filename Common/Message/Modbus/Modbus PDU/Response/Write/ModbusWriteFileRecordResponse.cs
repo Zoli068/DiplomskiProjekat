@@ -12,10 +12,9 @@ namespace Common.Message
         private ushort[] recordLength;
         private short[][] recordData;
 
-
         public ModbusWriteFileRecordResponse() { }
 
-        public ModbusWriteFileRecordResponse(byte responseDataLength, byte[] referrenceType, ushort[] fileNumber, ushort[] recordNumber, ushort[] recordLength, short[][] recordData)
+        public ModbusWriteFileRecordResponse(byte responseDataLength, byte[] referenceType, ushort[] fileNumber, ushort[] recordNumber, ushort[] recordLength, short[][] recordData)
         {
             this.responseDataLength = responseDataLength;
             this.referenceType = referenceType;
@@ -24,7 +23,6 @@ namespace Common.Message
             this.recordLength = recordLength;
             this.recordData = recordData;
         }
-
 
         public void Deserialize(byte[] data, ref int startIndex)
         {

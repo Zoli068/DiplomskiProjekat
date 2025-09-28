@@ -20,11 +20,11 @@ namespace Master.Communication
         private ModbusMessageDataHistory messageDataHistory;
         private IResponseHandler responsePDUHandler;
 
-        public TCPModbusMessageHandler(Action<byte[]> sendBytes)
+        public TCPModbusMessageHandler(Action<byte[]> sendBytes, IResponseHandler responsePDUHandler)
         {
             this.sendBytes = sendBytes;
             messageDataHistory = new ModbusMessageDataHistory();
-            responsePDUHandler = new ModbusPDUResponseHandler();
+            this.responsePDUHandler = responsePDUHandler;
             buffer= new ByteBuffer();
         }
 

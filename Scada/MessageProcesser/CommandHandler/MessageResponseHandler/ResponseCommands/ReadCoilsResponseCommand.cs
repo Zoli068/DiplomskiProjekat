@@ -1,6 +1,7 @@
 ﻿using Common.Command;
 using Common.Message;
-using System;
+using Common.Utilities;
+using Master.MessageProcesser.CommandHandler.MessageInitiateHandler.DTOToUIResponse;
 
 namespace Master.CommandHandler.ResponseCommands
 {
@@ -9,33 +10,31 @@ namespace Master.CommandHandler.ResponseCommands
     /// </summary>
     public class ReadCoilsResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusPDUData request, IModbusPDUData response)
+        public IMessageDTO Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusReadCoilsResponse res = response as ModbusReadCoilsResponse;
-
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Read Coils Response:");
-            Console.WriteLine("--------------------------------------------------------------");
-
             ModbusReadCoilsRequest req = request as ModbusReadCoilsRequest;
 
-            Console.WriteLine("Quantity of coils:" + req.QuantityOfCoils);
+            ReadCoilsResponseDTO  responseDTO= new ReadCoilsResponseDTO();
+
+            responseDTO.Values = new byte[req.QuantityOfCoils];
+            responseDTO.Address = req.StartingAddress;
 
             byte temp;
+
             for (int i = 0; i < req.QuantityOfCoils; i++)
             {
-                Console.WriteLine("-------------------------------");
                 int byteIndex = i / 8;
                 int bitPosition = i % 8;
 
                 temp = (byte)((res.CoilStatus[byteIndex] & (1 << bitPosition)));
                 if (temp != 0)
                     temp = 1;
-                Console.WriteLine((req.StartingAddress + i) + " address:" + temp);
 
+                responseDTO.Values[i]= temp;
             }
 
-            Console.WriteLine("-------------------------------");
+            return responseDTO;
         }
     }
 }

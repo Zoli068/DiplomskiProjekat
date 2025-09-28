@@ -1,26 +1,29 @@
 ﻿using Common.Communication;
 using Common.Message;
+using Common.Utilities;
 using Master.MessageProcesser;
-using Master.UI;
+using System;
 
 namespace Master
 {
     public class Scada
     {
+        public Action<FunctionCode, IMessageDTO> initateMessage;
+
+        public event Action<FunctionCode,IMessageDTO> ResponseRecived;
         private ICommunication communication;
         private IMessageProcesser<FunctionCode> messageProcesser;
-        private ConsoleUI consoleUI;
 
         public Scada()
         {
             communication = new Communication.Communication();
-            messageProcesser = new ModbusMessageProcesser(communication);
-            consoleUI = new ConsoleUI(messageProcesser.InitateMessage);
+            messageProcesser = new ModbusMessageProcesser(communication,RaiseResponseRecivedEvent);
+            initateMessage = messageProcesser.InitateMessage;
         }
 
-        public void Start()
+        internal void RaiseResponseRecivedEvent(FunctionCode functionCode, IMessageDTO messageDTO)
         {
-            consoleUI.Start();
+            ResponseRecived?.Invoke(functionCode, messageDTO);
         }
     }
 }

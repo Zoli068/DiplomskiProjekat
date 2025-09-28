@@ -57,6 +57,7 @@ namespace Slave.Communication
             }
             catch (Exception)
             {
+                buffer.RemoveBytes(0, 7 + (modbusMessage.MessageHeader as TCPModbusHeader).Length);
                 return;
             }
         }

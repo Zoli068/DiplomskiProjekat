@@ -11,7 +11,7 @@ namespace Master.Communication
     public class Communication : ICommunication
     {
         public event Action<byte[]> BytesRecived;
-        private CommunicationHandler communicationHandler;
+        public CommunicationHandler communicationHandler;
 
         public Communication()
         {

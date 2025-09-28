@@ -1,7 +1,9 @@
 ﻿using Common.Command;
 using Common.Message;
+using Common.Utilities;
 using Master.CommandHandler.ResponseCommands;
 using Master.MessageProcesser;
+using Master.MessageProcesser.CommandHandler.MessageInitiateHandler.DTOToUIResponse;
 using System;
 using System.Collections.Generic;
 
@@ -13,9 +15,12 @@ namespace Master.CommandHandler
     public class ModbusPDUResponseHandler : IResponseHandler
     {
         private readonly Dictionary<FunctionCode, IResponseCommand<IModbusPDUData>> commands;
+        private Action<FunctionCode, IMessageDTO> responseRecived;
 
-        public ModbusPDUResponseHandler()
+        public ModbusPDUResponseHandler(Action<FunctionCode, IMessageDTO> responseRecived)
         {
+            this.responseRecived = responseRecived;
+
             commands = new Dictionary<FunctionCode, IResponseCommand<IModbusPDUData>>()
             {
                 {FunctionCode.ReadCoils,new ReadCoilsResponseCommand() },
@@ -37,30 +42,27 @@ namespace Master.CommandHandler
         public void ProcessMessageData(IMessageData request, IMessageData response)
         {
             IResponseCommand<IModbusPDUData> command;
+            IMessageDTO responseDTO;
 
             if (((byte)(((IModbusPDU)response).FunctionCode) & 0x80) == 0)
             {
                 if (commands.TryGetValue(((IModbusPDU)response).FunctionCode, out command))
                 {
-                    command.Execute(((IModbusPDU)request).Data, ((IModbusPDU)response).Data);
+                    responseDTO = command.Execute(((IModbusPDU)request).Data, ((IModbusPDU)response).Data);
+
+                    responseRecived(((IModbusPDU)response).FunctionCode, responseDTO);
                 }
             }
             else
             {
-                HandleError(response);
-            }
-        }
+                ModbusPDU errorPDU = response as ModbusPDU;
 
-        private void HandleError(IMessageData response)
-        {
-            ModbusPDU errorPdu = response as ModbusPDU;
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Error Happened:");
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Function code error:" + errorPdu.FunctionCode);
-            Console.WriteLine("Error Code:" + ((ModbusError)errorPdu.Data).ErrorCode);
-            Console.WriteLine("Exception Code:" + ((ModbusError)errorPdu.Data).ExceptionCode);
-            Console.WriteLine("--------------------------------------------------------------");
+                responseDTO = new ErrorResponseDTO();
+                (responseDTO as ErrorResponseDTO).ExceptionCode= ((ModbusError)errorPDU.Data).ExceptionCode;
+                (responseDTO as ErrorResponseDTO).ErrorCode= ((ModbusError)errorPDU.Data).ErrorCode;
+
+                responseRecived(((IModbusPDU)response).FunctionCode, responseDTO);
+            }
         }
     }
 }

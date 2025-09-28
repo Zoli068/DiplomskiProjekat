@@ -1,6 +1,7 @@
 ﻿using Common.Command;
 using Common.Message;
-using System;
+using Common.Utilities;
+using Master.MessageProcesser.CommandHandler.MessageInitiateHandler.DTOToUIResponse;
 
 namespace Master.CommandHandler.ResponseCommands
 {
@@ -9,33 +10,32 @@ namespace Master.CommandHandler.ResponseCommands
     /// </summary>
     public class WriteMultipleCoilsResponseCommand : IResponseCommand<IModbusPDUData>
     {
-        public void Execute(IModbusPDUData request, IModbusPDUData response)
+        public IMessageDTO Execute(IModbusPDUData request, IModbusPDUData response)
         {
             ModbusWriteMultipleCoilsResponse res = response as ModbusWriteMultipleCoilsResponse;
-
-            Console.WriteLine("--------------------------------------------------------------");
-            Console.WriteLine("Write Multiple Coils Response:");
-            Console.WriteLine("--------------------------------------------------------------");
-
             ModbusWriteMultipleCoilsRequest req = request as ModbusWriteMultipleCoilsRequest;
 
-            Console.WriteLine("Quantity of outputs:" + req.QuantityOfOutputs);
+            WriteCoilsResponseDTO responseDTO= new WriteCoilsResponseDTO();
+
+            responseDTO.Address = req.StartingAddress;
+            responseDTO.Values = new byte[req.QuantityOfOutputs];
 
             byte temp;
+
             for (int i = 0; i < req.QuantityOfOutputs; i++)
             {
-                Console.WriteLine("-------------------------------");
                 int byteIndex = i / 8;
                 int bitPosition = i % 8;
 
                 temp = (byte)((req.OutputsValue[byteIndex] & (1 << bitPosition)));
+
                 if (temp != 0)
                     temp = 1;
 
-                Console.WriteLine((req.StartingAddress + i) + " address:" + temp);
+                responseDTO.Values[i] = temp;
             }
 
-            Console.WriteLine("-------------------------------");
+            return responseDTO;
         }
     }
 }
