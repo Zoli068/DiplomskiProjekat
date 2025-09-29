@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace MasterGUI.GUIElements
+namespace SlaveGUI.GUIElements
 {
     /// <summary>
     /// Interaction logic for InputDialog.xaml
@@ -14,12 +14,12 @@ namespace MasterGUI.GUIElements
 
         public InputDialog(string question, Type type)
         {
-            this.type= type;
+            this.type = type;
             InitializeComponent();
             this.Title = question;
             InputBox.Text = "";
             InputBox.Focus();
-            InputBox.SelectAll();    
+            InputBox.SelectAll();
         }
 
         private void Ok_Click(object sender, RoutedEventArgs e)
@@ -32,7 +32,6 @@ namespace MasterGUI.GUIElements
                 InputBox.BorderBrush = Brushes.Red;
                 return;
             }
-
             ResponseText = InputBox.Text;
             DialogResult = true;
         }

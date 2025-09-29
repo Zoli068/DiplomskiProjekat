@@ -138,7 +138,7 @@ namespace Common.PointsDataBase
             InitializePointsFromFile("pointsConfiguration.txt");
         }
 
-        private void OnDataChanged()
+        public void OnDataChanged()
         {
             DataChanged?.Invoke();
         }

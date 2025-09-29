@@ -9,7 +9,6 @@ using MasterGUI.Points;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,10 +19,10 @@ namespace MasterGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Scada scada;
         private Point<Byte> coilsPoint=null;
         private Point<short> registersPoint=null;
         public PointsDatabase pointsDatabase = new PointsDatabase();
-        private Scada scada;
 
         public MainWindow()
         {
@@ -35,7 +34,11 @@ namespace MasterGUI
             RegistersGrid.ItemsSource = pointsDatabase.Registers;
             pointsDatabase.DataChanged += RefreshValues;
             scada.ResponseRecived += SubscriptionResponse;
+
+            InitRead();
         }
+
+        #region Handle Response
 
         public void SubscriptionResponse(FunctionCode functionCode, IMessageDTO responseDTO)
         {
@@ -46,7 +49,6 @@ namespace MasterGUI
             {
                 HandleResponse(fc, responseDTO);
             }));
-
         }
 
         private void HandleResponse(FunctionCode functionCode, IMessageDTO responseDTO)
@@ -56,7 +58,6 @@ namespace MasterGUI
 
             switch(functionCode)
             {
-                //Coils
                 case FunctionCode.ReadCoils:
                 case FunctionCode.ReadDiscreteInputs:
                     ReadCoilsResponseDTO tempReadCoilsDTO= responseDTO as ReadCoilsResponseDTO;
@@ -75,8 +76,6 @@ namespace MasterGUI
                     }
                     break;
 
-
-                //Registers
                 case FunctionCode.ReadInputRegisters:
                 case FunctionCode.ReadHoldingRegisters:
                     ReadRegistersResponseDTO tempReadRegDTO = responseDTO as ReadRegistersResponseDTO;
@@ -129,15 +128,16 @@ namespace MasterGUI
             }));
         }
 
+        #endregion
 
         #region Read/Write Coils
 
-        private void ContextMenu_CoilsContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
+        private void ContextMenu_DiscreteValuesContextMenuOpening(object sender, System.Windows.Controls.ContextMenuEventArgs e)
         {
             if (sender is DataGridRow row && row.Item is KeyValuePair<ushort, Point<byte>> kvp)
             {
-
                 var menu = row.ContextMenu;
+
                 if (menu != null)
                 {
                     var writeItem = menu.Items.OfType<MenuItem>()
@@ -154,7 +154,7 @@ namespace MasterGUI
             }
         }
 
-        private void ReadCoils_Click(object sender, RoutedEventArgs e)
+        private void ReadDiscreteValue_Click(object sender, RoutedEventArgs e)
         {
             InitiateReadModbusDTO initiateReadModbusDTO = new InitiateReadModbusDTO();
             initiateReadModbusDTO.Address = coilsPoint.Address;
@@ -168,7 +168,7 @@ namespace MasterGUI
             coilsPoint = null;
         }
 
-        private void WriteCoils_Click(object sender, RoutedEventArgs e)
+        private void WriteDiscreteValue_Click(object sender, RoutedEventArgs e)
         {
             InitiateWriteSingleModbusDTO initiateWriteSingleModbusDTO = new InitiateWriteSingleModbusDTO();
             initiateWriteSingleModbusDTO.Address=coilsPoint.Address;
@@ -182,9 +182,7 @@ namespace MasterGUI
                 initiateWriteSingleModbusDTO.Value = 0;
             }
 
-
             scada.initateMessage(Common.Message.FunctionCode.WriteSingleCoil, initiateWriteSingleModbusDTO);
-
 
             coilsPoint = null;
         }
@@ -235,7 +233,6 @@ namespace MasterGUI
 
             inputDialog.Owner = this; 
 
-
             if (inputDialog.ShowDialog() == false)
             {
                 return;
@@ -259,9 +256,9 @@ namespace MasterGUI
         }
         #endregion
 
-        #region Read Coils/Discrete Inputs
+        #region Read Multiple Discrete Values
 
-        private void CoilsDiscInputsRead_Click(object sender, RoutedEventArgs e)
+        private void CoilsDiscreteValuesRead_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new InputTwoValuesDialog("Enter Address and Quantity to be readed");
             ushort number;
@@ -271,7 +268,6 @@ namespace MasterGUI
             {
                  address = dialog.Address;
                  number = dialog.Number;
-
             }
             else
             {
@@ -308,15 +304,11 @@ namespace MasterGUI
                 scada.initateMessage(FunctionCode.ReadCoils,initiateReadModbusDTO);
             else
                 scada.initateMessage(FunctionCode.ReadDiscreteInputs,initiateReadModbusDTO);
-
-
         }
-
-
 
         #endregion
 
-        #region Read Registers 
+        #region Read Multiple Registers 
 
         private void RegistersRead_Click(object sender, RoutedEventArgs e)
         {
@@ -328,7 +320,6 @@ namespace MasterGUI
             {
                 address = dialog.Address;
                 number = dialog.Number;
-
             }
             else
             {
@@ -365,8 +356,141 @@ namespace MasterGUI
                 scada.initateMessage(FunctionCode.ReadHoldingRegisters, initiateReadModbusDTO);
             else
                 scada.initateMessage(FunctionCode.ReadInputRegisters, initiateReadModbusDTO);
+        }
 
+        #endregion
 
+        #region Write Multiple Registers
+
+        private void WriteMultipleHoldingRegisters_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new MultipleValueInputDialog();
+
+            if (dialog.ShowDialog() == true)
+            {
+                ushort address = dialog.Address;
+                ushort quantity = dialog.Quantity;
+                List<short> values = dialog.Values;
+
+                Point<short> pointTemp;
+
+                if (quantity > 123)
+                {
+                    MessageBox.Show("Max quantity is 123", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                for(int i=0;i<quantity;i++)
+                {
+                    if(!pointsDatabase.Registers.TryGetValue((ushort)(address + i), out pointTemp))
+                    {
+                        MessageBox.Show("Address doesnt exists: "+ (address + i), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        if(pointTemp.Type==PointsType.INPUT_REGISTERS)
+                        {
+                            MessageBox.Show("Type of the address: "+ (address + i)+ " isn't HOLDING_REGISTERS", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                }
+
+                InitiateWriteMultipleModbusDTO requestDTO= new InitiateWriteMultipleModbusDTO();
+                requestDTO.Address = address;
+                requestDTO.Quantity = quantity;
+                
+                requestDTO.Values=values.ToArray();
+
+                scada.initateMessage(FunctionCode.WriteMultipleRegisters,requestDTO);
+            }
+        }
+        #endregion
+
+        #region  Write Multiple Coils 
+
+        private void WriteMultipleCoils_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new MultipleValueInputDialog();
+
+            if (dialog.ShowDialog() == true)
+            {
+                ushort address = dialog.Address;
+                ushort quantity = dialog.Quantity;
+                List<short> values = dialog.Values;
+
+                Point<byte> pointTemp;
+
+                if (quantity > 1968)
+                {
+                    MessageBox.Show("Max quantity is 1968", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                for (int i = 0; i < quantity; i++)
+                {
+                    if (!pointsDatabase.Coils.TryGetValue((ushort)(address + i), out pointTemp))
+                    {
+                        MessageBox.Show("Address doesnt exists: " + (address + i), "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    else
+                    {
+                        if (pointTemp.Type == PointsType.DISCRETE_INPUTS)
+                        {
+                            MessageBox.Show("Type of the address: " + (address + i) + " isn't COILS", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                }
+
+                InitiateWriteMultipleModbusDTO requestDTO = new InitiateWriteMultipleModbusDTO();
+                requestDTO.Address = address;
+                requestDTO.Quantity = quantity;
+                requestDTO.Values = values.ToArray();
+
+                scada.initateMessage(FunctionCode.WriteMultipleCoils, requestDTO);
+            }
+        }
+        #endregion
+
+        #region InitRead
+
+        private void InitRead()
+        {
+            InitiateReadModbusDTO initiateReadModbusDTO;
+            foreach (Point<byte> p in pointsDatabase.Coils.Values.ToList())
+            {
+                initiateReadModbusDTO = new InitiateReadModbusDTO();
+                initiateReadModbusDTO.Address = p.Address;
+                initiateReadModbusDTO.Quantity = 1;
+
+                if (p.Type == PointsType.COILS)
+                {
+                    scada.initateMessage(FunctionCode.ReadCoils, initiateReadModbusDTO);
+                }
+                else
+                {
+                    scada.initateMessage(FunctionCode.ReadDiscreteInputs, initiateReadModbusDTO);
+                }
+            }
+
+            foreach (Point<short> p in pointsDatabase.Registers.Values.ToList())
+            {
+                initiateReadModbusDTO = new InitiateReadModbusDTO();
+                initiateReadModbusDTO.Address = p.Address;
+                initiateReadModbusDTO.Quantity = 1;
+
+                if (p.Type == PointsType.HOLDING_REGISTERS)
+                {
+                    scada.initateMessage(FunctionCode.ReadHoldingRegisters, initiateReadModbusDTO);
+                }
+                else
+                {
+                    scada.initateMessage(FunctionCode.ReadInputRegisters, initiateReadModbusDTO);
+                }
+            }
         }
 
         #endregion

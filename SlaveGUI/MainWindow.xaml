@@ -5,32 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SlaveGUI"
         mc:Ignorable="d"
-        Title="Modbus Slave" ResizeMode="NoResize" Height="450" Width="800">
+        Title="Modbus Slave" ResizeMode="CanMinimize" Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <DockPanel  Margin="5 0 5 5"  Grid.Row="1">
-            <TextBlock DockPanel.Dock="Top" Padding="5" FontSize="15" FontWeight="Bold" >Register values</TextBlock>
+        <DockPanel  Margin="10 0 10 5"  Grid.Row="1">
+            <TextBlock DockPanel.Dock="Top" Padding="5" FontSize="16" FontWeight="Bold" >Register values</TextBlock>
             <DataGrid IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False"  x:Name="RegistersDataGrid" AutoGenerateColumns="False" >
+
+                <DataGrid.Resources>
+                    <ContextMenu x:Key="ContextMenuResource">
+                        <MenuItem Header="Update Value" Click="UpdateValue_Click"></MenuItem>
+                    </ContextMenu>
+                </DataGrid.Resources>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="ContextMenu" Value="{StaticResource ContextMenuResource}"/>
+                        <EventSetter Event="ContextMenuOpening" Handler="ContextMenu_ContextMenuOpening"/>
+                    </Style>
+                </DataGrid.RowStyle>
+                
                 <DataGrid.Columns>
-                    <DataGridTextColumn  Header="Address" Binding="{Binding Address}" Width="*" />
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*" />
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+                    <DataGridTextColumn FontWeight="DemiBold"  Header="Address" Binding="{Binding Address}" Width="*" />
+                    <DataGridTextColumn FontWeight="DemiBold"  Header="Type" Binding="{Binding Type}" Width="*" />
+                    <DataGridTextColumn FontWeight="DemiBold"  Header="Value" Binding="{Binding Value}" Width="*" />
                 </DataGrid.Columns>
+                
             </DataGrid>
         </DockPanel>
 
-        <DockPanel Margin="5 0 5 5"  Grid.Row="0">
-            <TextBlock DockPanel.Dock="Top" Padding="5" FontSize="15" FontWeight="Bold" >Discrete values</TextBlock>
+        <DockPanel Margin="10 0 10 5"  Grid.Row="0">
+            <TextBlock DockPanel.Dock="Top" Padding="5" FontSize="16" FontWeight="Bold" >Discrete values</TextBlock>
             <DataGrid IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" x:Name="DiscretesDataGrid" AutoGenerateColumns="False" >
+
+                <DataGrid.Resources>
+                    <ContextMenu x:Key="ContextMenuResource">
+                        <MenuItem Header="Update Value" Click="UpdateValue_Click"></MenuItem>
+                    </ContextMenu>
+                </DataGrid.Resources>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="ContextMenu" Value="{StaticResource ContextMenuResource}"/>
+                        <EventSetter Event="ContextMenuOpening" Handler="ContextMenu_ContextMenuOpening"/>
+                    </Style>
+                </DataGrid.RowStyle>
+
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Address" Binding="{Binding Address}" Width="*" />
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*" />
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+                    <DataGridTextColumn FontWeight="DemiBold" Header="Address" Binding="{Binding Address}" Width="*" />
+                    <DataGridTextColumn FontWeight="DemiBold" Header="Type" Binding="{Binding Type}" Width="*" />
+                    <DataGridTextColumn FontWeight="DemiBold" Header="Value" Binding="{Binding Value}" Width="*" />
                 </DataGrid.Columns>
+                
             </DataGrid>
         </DockPanel>
     </Grid>

@@ -34,16 +34,17 @@ namespace Slave.Communication
                 return;
 
             byte[] header = buffer.GetValues(0, 7);
-
+            byte[] message;
+            ModbusPDU modbusPDU=null;
             try
             {
                 TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
 
                 if (buffer.Length - 7 >= TCPModbusHeader.Length)
                 {
-                    byte[] message = buffer.GetValues(7, TCPModbusHeader.Length);
+                    message = buffer.GetValues(7, TCPModbusHeader.Length);
 
-                    ModbusPDU modbusPDU = Serialization.CreateMessageObject<ModbusPDU>(message);
+                    modbusPDU = Serialization.CreateMessageObject<ModbusPDU>(message);
 
                     modbusMessage = new TCPModbusMessage(modbusPDU,TCPModbusHeader);
 
@@ -58,7 +59,20 @@ namespace Slave.Communication
             catch (Exception)
             {
                 buffer.RemoveBytes(0, 7 + (modbusMessage.MessageHeader as TCPModbusHeader).Length);
-                return;
+
+                if (modbusPDU == null)
+                {
+                    return;
+                }
+
+                byte errorFunctionCode = (byte)(((byte)modbusPDU.FunctionCode) + 0x80);
+
+                ModbusPDU modbusPDUToSend = new ModbusPDU();
+
+                modbusPDUToSend.FunctionCode = (FunctionCode)errorFunctionCode;
+                modbusPDUToSend.Data = new ModbusError(errorFunctionCode, ExceptionCode.SlaveDeviceFailure);
+
+                SendMessage(modbusPDU);
             }
         }
 

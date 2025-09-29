@@ -51,7 +51,18 @@ namespace Slave.CommandHandler.Commands
 
                 temp = (byte)((request.OutputsValue[byteIndex] & (1 << bitPosition)));
 
-                pointsDataBase.WriteDiscreteValue((ushort)(request.StartingAddress + i), PointsType.COILS, temp);
+                byte toWrite;
+
+                if (temp == 0)
+                {
+                    toWrite = 0;
+                }
+                else
+                {
+                    toWrite = 1;
+                }
+
+                pointsDataBase.WriteDiscreteValue((ushort)(request.StartingAddress + i), PointsType.COILS, toWrite);
             }
 
             return new ModbusWriteMultipleCoilsResponse(request.StartingAddress, request.QuantityOfOutputs);

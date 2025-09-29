@@ -54,7 +54,6 @@ namespace MasterGUI.Points
             }
         }
 
-
         private void InitializePoints(string filePath)
         {
             foreach (var line in File.ReadLines(filePath))
@@ -94,7 +93,6 @@ namespace MasterGUI.Points
                         short regMax = short.Parse(parts[3]);
                         Registers[address] = new Point<short>(address, type, regMin, regMax);
                         break;
-
                 }
             }
         }

@@ -2,23 +2,29 @@
 using Common.CommunicationExceptions;
 using Common.FIFOQueue;
 using Common.FileRecord;
+using Common.IPointsDataBase;
 using Common.Message;
 using Common.PointsDataBase;
 using Slave.Communication;
 using Slave.Message;
+using SlaveGUI.GUIElements;
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SlaveGUI
 {
     public partial class MainWindow : Window
     {
-        ICommunication communication;
-        IMessageProcesser<FunctionCode> messageProcesser;
-        PointsDataBase db = new PointsDataBase();
-        IFileRecord fileRecord = new FileRecord();
-        IFIFOQueue fIFOQueue = new FIFOQueue();
+        private ICommunication communication;
+        private PointsDataBase db = new PointsDataBase();
+        private IFileRecord fileRecord = new FileRecord();
+        private IFIFOQueue fIFOQueue = new FIFOQueue();
+        private IMessageProcesser<FunctionCode> messageProcesser;
+
+        private PointsType typeToUpdate;
+        private ushort addrressToUpdate;
 
         public MainWindow()
         {
@@ -70,6 +76,73 @@ namespace SlaveGUI
             {
                 Console.WriteLine("An unknown error happened");
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void UpdateValue_Click(object sender, RoutedEventArgs e)
+        {
+                InputDialog inputDialog;
+            
+                if(typeToUpdate==PointsType.INPUT_REGISTERS || typeToUpdate == PointsType.HOLDING_REGISTERS)
+                {
+                    inputDialog = new InputDialog("Enter the register value", typeof(short));
+                }
+                else
+                {
+                    (PointsType, byte) tmp;
+                    
+                    if(db.DiscreteDictionary.TryGetValue(addrressToUpdate, out tmp))
+                    {
+                        if(tmp.Item2 == 0)
+                        {
+                        
+                            db.DiscreteDictionary[addrressToUpdate] = (tmp.Item1,1);
+                            db.OnDataChanged();
+                        }
+                        else
+                        {
+                            db.DiscreteDictionary[addrressToUpdate] = (tmp.Item1,0);
+                            db.OnDataChanged();
+                        }   
+                    }
+
+                    addrressToUpdate = 0;
+
+                    return;
+                }
+
+                inputDialog.Owner = this;
+                
+                if (inputDialog.ShowDialog() == false)
+                {
+                    return;
+                }
+
+                if (short.TryParse(inputDialog.ResponseText, out short value))
+                {
+                    (PointsType, short) tmp;
+
+                    if (db.RegistersDictionary.TryGetValue(addrressToUpdate, out tmp))
+                    {
+                        db.RegistersDictionary[addrressToUpdate] = (tmp.Item1, value);
+                        db.OnDataChanged();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error", "You entered invalid value for the register", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                addrressToUpdate = 0;
+        }
+
+        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (sender is DataGridRow row)
+            {
+                dynamic item = row.Item;
+                addrressToUpdate = item.Address;
+                typeToUpdate = item.Type;
             }
         }
     }

@@ -1,0 +1,38 @@
+﻿<Window x:Class="MasterGUI.GUIElements.MultipleValueInputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MasterGUI.GUIElements"
+        mc:Ignorable="d"
+         Title="Enter Values"
+        Height="350" Width="300"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="10">
+
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10" >
+            <Label Content="Address:" Width="70"/>
+            <TextBox x:Name="AddressBox" Width="190"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal">
+            <Label Content="Quantity:" Width="70"/>
+            <TextBox x:Name="QuantityBox" Width="190" PreviewTextInput="QuantityBox_PreviewTextInput"/>
+        </StackPanel>
+            <Button Content="Set" Width="60" Margin="5,10,0,10" Click="SetQuantity_Click"/>
+
+        <!-- Values Grid -->
+        <DataGrid  x:Name="ValuesGrid"  AutoGenerateColumns="False" Height="160" CanUserAddRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn CanUserSort="False" Header="Address" Binding="{Binding Index}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn CanUserSort="False" Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Orientation="Horizontal" Margin="0 10 0 0" HorizontalAlignment="Right" >
+            <Button Content="OK" Width="80" Margin="0 0 10 0" Click="Ok_Click"/>
+            <Button Content="Cancel" Width="80" Click="Cancel_Click"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
