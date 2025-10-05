@@ -30,49 +30,49 @@ namespace Slave.Communication
 
             buffer.Append(data);
 
-            if (buffer.Length < 7)
-                return;
-
-            byte[] header = buffer.GetValues(0, 7);
-            byte[] message;
-            ModbusPDU modbusPDU=null;
-            try
+            while (buffer.Length >= 7)
             {
-                TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
-
-                if (buffer.Length - 7 >= TCPModbusHeader.Length)
+                byte[] header = buffer.GetValues(0, 7);
+                byte[] message;
+                ModbusPDU modbusPDU=null;
+                try
                 {
-                    message = buffer.GetValues(7, TCPModbusHeader.Length);
+                    TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
 
-                    modbusPDU = Serialization.CreateMessageObject<ModbusPDU>(message);
+                    if (buffer.Length - 7 >= TCPModbusHeader.Length)
+                    {
+                        message = buffer.GetValues(7, TCPModbusHeader.Length);
 
-                    modbusMessage = new TCPModbusMessage(modbusPDU,TCPModbusHeader);
+                        modbusPDU = Serialization.CreateMessageObject<ModbusPDU>(message);
 
-                    messageDataToSend = messageDataHandler.ProcessMessageData(modbusMessage.MessageData);
-                    SendMessage(messageDataToSend);
+                        modbusMessage = new TCPModbusMessage(modbusPDU,TCPModbusHeader);
 
-                    modbusMessage = null;
+                        messageDataToSend = messageDataHandler.ProcessMessageData(modbusMessage.MessageData);
+                        SendMessage(messageDataToSend);
 
-                    buffer.RemoveBytes(0, TCPModbusHeader.Length + 7);
+                        modbusMessage = null;
+
+                        buffer.RemoveBytes(0, TCPModbusHeader.Length + 7);
+                    }
                 }
-            }
-            catch (Exception)
-            {
-                buffer.RemoveBytes(0, 7 + (modbusMessage.MessageHeader as TCPModbusHeader).Length);
-
-                if (modbusPDU == null)
+                catch (Exception)
                 {
-                    return;
+                    buffer.RemoveBytes(0, 7 + (modbusMessage.MessageHeader as TCPModbusHeader).Length);
+
+                    if (modbusPDU == null)
+                    {
+                        return;
+                    }
+
+                    byte errorFunctionCode = (byte)(((byte)modbusPDU.FunctionCode) + 0x80);
+
+                    ModbusPDU modbusPDUToSend = new ModbusPDU();
+
+                    modbusPDUToSend.FunctionCode = (FunctionCode)errorFunctionCode;
+                    modbusPDUToSend.Data = new ModbusError(errorFunctionCode, ExceptionCode.SlaveDeviceFailure);
+
+                    SendMessage(modbusPDU);
                 }
-
-                byte errorFunctionCode = (byte)(((byte)modbusPDU.FunctionCode) + 0x80);
-
-                ModbusPDU modbusPDUToSend = new ModbusPDU();
-
-                modbusPDUToSend.FunctionCode = (FunctionCode)errorFunctionCode;
-                modbusPDUToSend.Data = new ModbusError(errorFunctionCode, ExceptionCode.SlaveDeviceFailure);
-
-                SendMessage(modbusPDU);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Slave.Communication
                 header.ProtocolID = 0;
                 header.TransactionID = (modbusMessage.MessageHeader as TCPModbusHeader).TransactionID;
                 header.UnitID = (modbusMessage.MessageHeader as TCPModbusHeader).UnitID;
-                header.Length = (byte)messsageDataSerialized.Length;
+                header.Length = (ushort)messsageDataSerialized.Length;
 
                 dataToSend.AddRange(header.Serialize());
                 dataToSend.AddRange(messsageDataSerialized);

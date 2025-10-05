@@ -16,7 +16,7 @@ namespace Slave.Communication
         public Communication()
         {
             ICommunicationStreamOptions options = new TcpCommunicationOptions(IPAddress.Loopback, 502, CommunicationStreamType.TCP, 8192,0);
-            ICommunicationHandlerOptions handlerOptions = new CommunicationHandlerOptions(SecurityMode.SECURE, MessageType.TCPModbus);
+            ICommunicationHandlerOptions handlerOptions = new CommunicationHandlerOptions(SecurityMode.INSECURE, MessageType.TCPModbus);
             communicationHandler = new CommunicationHandler(handlerOptions, options, RaiseBytesRecvied);
         }
 

@@ -36,30 +36,30 @@ namespace Master.Communication
         {
             buffer.Append(data);
 
-            if (buffer.Length < 7)
-                return;
-
-            byte[] header = buffer.GetValues(0, 7);
-            
-            try
-            {                
-                TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
-
-                if (buffer.Length - 7 >= TCPModbusHeader.Length)
-                {
-                    byte[] message=buffer.GetValues(7, TCPModbusHeader.Length);
-
-                    ModbusPDU modbusPDU= Serialization.CreateMessageObject<ModbusPDU>(message);
-
-                    IMessageData response = messageDataHistory.GetMessageData(TCPModbusHeader.TransactionID);
-                    responsePDUHandler.ProcessMessageData(response, modbusPDU);
-
-                    buffer.RemoveBytes(0,TCPModbusHeader.Length + 7);
-                }
-            }
-            catch (Exception)
+            while(buffer.Length >= 7)
             {
-                return;
+                byte[] header = buffer.GetValues(0, 7);
+            
+                try
+                {                
+                    TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
+
+                    if (buffer.Length - 7 >= TCPModbusHeader.Length)
+                    {
+                        byte[] message=buffer.GetValues(7, TCPModbusHeader.Length);
+
+                        ModbusPDU modbusPDU= Serialization.CreateMessageObject<ModbusPDU>(message);
+
+                        IMessageData response = messageDataHistory.GetMessageData(TCPModbusHeader.TransactionID);
+                        responsePDUHandler.ProcessMessageData(response, modbusPDU);
+
+                        buffer.RemoveBytes(0,TCPModbusHeader.Length + 7);
+                    }
+                }
+                catch (Exception)
+                {
+                    return;
+                }
             }
         }
 

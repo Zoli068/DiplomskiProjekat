@@ -15,7 +15,7 @@ namespace Master.Communication
 
         public Communication()
         {
-            ICommunicationStreamOptions tcpCommunicationStreamOptions = new TCPCommunicationOptions(IPAddress.Loopback, 502, CommunicationStreamType.TCP,SecurityMode.SECURE, 2000, 8192);
+            ICommunicationStreamOptions tcpCommunicationStreamOptions = new TCPCommunicationOptions(IPAddress.Loopback, 502, CommunicationStreamType.TCP,SecurityMode.INSECURE, 2000, 8192);
             ICommunicationHandlerOptions communicationHandlerOptions = new CommunicationHandlerOptions(20000);
 
             communicationHandler = new CommunicationHandler(communicationHandlerOptions, tcpCommunicationStreamOptions, RaiseBytesRecvied);
