@@ -21,7 +21,7 @@ namespace Master.Communication
         private IResponseHandler responsePDUHandler;
 
         public TCPModbusMessageHandler(Action<byte[]> sendBytes, IResponseHandler responsePDUHandler)
-        {
+        { 
             this.sendBytes = sendBytes;
             messageDataHistory = new ModbusMessageDataHistory();
             this.responsePDUHandler = responsePDUHandler;
@@ -44,16 +44,16 @@ namespace Master.Communication
                 {                
                     TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
 
-                    if (buffer.Length - 7 >= TCPModbusHeader.Length)
+                    if (buffer.Length - 6 >= TCPModbusHeader.Length )
                     {
-                        byte[] message=buffer.GetValues(7, TCPModbusHeader.Length);
+                        byte[] message=buffer.GetValues(7, TCPModbusHeader.Length -1);
 
                         ModbusPDU modbusPDU= Serialization.CreateMessageObject<ModbusPDU>(message);
 
                         IMessageData response = messageDataHistory.GetMessageData(TCPModbusHeader.TransactionID);
                         responsePDUHandler.ProcessMessageData(response, modbusPDU);
 
-                        buffer.RemoveBytes(0,TCPModbusHeader.Length + 7);
+                        buffer.RemoveBytes(0,TCPModbusHeader.Length + 6);
                     }
                 }
                 catch (Exception)
@@ -74,7 +74,7 @@ namespace Master.Communication
                 List<byte> bytes = new List<byte>();
 
                 byte[] messageDataSerialized = messageData.Serialize();
-                TCPModbusHeader header = new TCPModbusHeader(transactionIdentificator, 0, (ushort)messageDataSerialized.Length, 255);
+                TCPModbusHeader header = new TCPModbusHeader(transactionIdentificator, 0, (ushort)(messageDataSerialized.Length + 1), 255);
 
                 bytes.AddRange(header.Serialize());
                 bytes.AddRange(messageDataSerialized);

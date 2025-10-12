@@ -39,9 +39,9 @@ namespace Slave.Communication
                 {
                     TCPModbusHeader TCPModbusHeader = Serialization.CreateMessageObject<TCPModbusHeader>(header);
 
-                    if (buffer.Length - 7 >= TCPModbusHeader.Length)
+                    if (buffer.Length - 6 >= TCPModbusHeader.Length)
                     {
-                        message = buffer.GetValues(7, TCPModbusHeader.Length);
+                        message = buffer.GetValues(7, TCPModbusHeader.Length -1);
 
                         modbusPDU = Serialization.CreateMessageObject<ModbusPDU>(message);
 
@@ -52,12 +52,12 @@ namespace Slave.Communication
 
                         modbusMessage = null;
 
-                        buffer.RemoveBytes(0, TCPModbusHeader.Length + 7);
+                        buffer.RemoveBytes(0, TCPModbusHeader.Length + 6);
                     }
                 }
                 catch (Exception)
                 {
-                    buffer.RemoveBytes(0, 7 + (modbusMessage.MessageHeader as TCPModbusHeader).Length);
+                    buffer.RemoveBytes(0, 6 + (modbusMessage.MessageHeader as TCPModbusHeader).Length);
 
                     if (modbusPDU == null)
                     {
@@ -88,7 +88,7 @@ namespace Slave.Communication
                 header.ProtocolID = 0;
                 header.TransactionID = (modbusMessage.MessageHeader as TCPModbusHeader).TransactionID;
                 header.UnitID = (modbusMessage.MessageHeader as TCPModbusHeader).UnitID;
-                header.Length = (ushort)messsageDataSerialized.Length;
+                header.Length = (ushort)(messsageDataSerialized.Length + 1);
 
                 dataToSend.AddRange(header.Serialize());
                 dataToSend.AddRange(messsageDataSerialized);
